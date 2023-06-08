@@ -6,12 +6,18 @@ import menuIcon from "../assets/menu.png";
 import closeIcon from "../assets/close.png";
 
 function Header() {
+  // Styling for the navigation links
   const navStyling = "p-1 m-2 border-tc hover:border-b-4";
+
+  // Function to determine if a navigation link is active
   const isActive = ({ isActive }) =>
     isActive ? `border-b-4 text-bgc ${navStyling}` : navStyling;
 
+  // State for displaying the mobile men
   const [displyMenu, setDisplyMenu] = useState(false);
+
   const navbar = () => {
+    // Function to render the navigation links
     return (
       <div
         className="items-center space-x-0 text-center
@@ -43,6 +49,7 @@ function Header() {
   };
 
   const showMenu = () => {
+    // Function to toggle the mobile menu
     setDisplyMenu((prevDisplyMenu) => !prevDisplyMenu);
   };
 
@@ -50,18 +57,23 @@ function Header() {
     <header className="flex sticky top-0 justify-center border-tc border-b text-tc bg-slate-300">
       <div>
         <div className="flex justify-between w-normalW my-2 items-center font-semibold md:">
+          {/* Logo and site name */}
           <Link to="/" className="flex items-center p-0.5">
             <img src={darkLogo} width={40} alt="logo" />
             <span className="text-lg pl-1">PropChase</span>
           </Link>
+
+          {/* Desktop navigation */}
           <div className="hidden md:block">{navbar()}</div>
+
+          {/* Mobile menu button */}
           <button onClick={showMenu} className="block md:hidden">
             <img width={20} src={displyMenu ? closeIcon : menuIcon} />
           </button>
         </div>
-        <div
-          className={`${displyMenu ? "block" : "hidden"} block md:hidden`}
-        >
+
+        {/* Mobile menu */}
+        <div className={`${displyMenu ? "block" : "hidden"} block md:hidden`}>
           {navbar()}
         </div>
       </div>
