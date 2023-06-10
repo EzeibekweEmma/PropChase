@@ -55,7 +55,7 @@ function Header() {
   return (
     <header className="flex sticky top-0 justify-center border-tc border-b text-tc bg-slate-300">
       <div>
-        <div className="flex justify-between w-normalW my-2 items-center font-semibold md:">
+        <div className="flex justify-between w-[80vw] my-2 items-center font-semibold md:">
           {/* Logo and site name */}
           <Link to="/" className="flex items-center p-0.5">
             <img src={darkLogo} width={40} alt="logo" />
