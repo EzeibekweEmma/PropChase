@@ -18,7 +18,7 @@ export default function Home() {
         bg-cover rounded-br-[20rem]"
         style={{ backgroundImage: `url(${heroBanner})` }}
       >
-        <section className="flex w-normalW items-center">
+        <section className="flex w-[80vw] items-center">
           <article className="max-w-xl">
             <h1 className="text-3xl md:text-5xl">
               Discover The Best Home For You And Your Family.
@@ -46,7 +46,7 @@ export default function Home() {
 
       <section className="flex justify-center">
         {/* Section highlighting reasons to choose the company */}
-        <section className=" w-normalW">
+        <section className=" w-[80vw]">
           <article className="my-20">
             <h1 className="text-3xl md:text-5xl text-slate-500">
               Why <span className="font-semibold text-tc">Choose</span> Us?
@@ -142,7 +142,7 @@ export default function Home() {
               </article>
               <img
                 src={Banner2}
-                className="h-[50vh] w-normalW rounded-xl md:h-[70vh] md:min-w-[40vw] mr-10"
+                className="h-[50vh] w-[80vw] rounded-xl md:h-[70vh] md:min-w-[40vw] mr-10"
                 alt=""
               />
             </div>
@@ -180,7 +180,7 @@ export default function Home() {
           <section className="flex flex-col md:flex-row items-center justify-between mb-10">
             <img
               src={Banner1}
-              className="h-[50vh] w-normalW rounded-xl md:h-[70vh] md:min-w-[40vw] mr-10"
+              className="h-[50vh] w-[80vw] rounded-xl md:h-[70vh] md:min-w-[40vw] mr-10"
               alt=""
             />
             <article className="mt-10 md:mt-0">

@@ -4,7 +4,7 @@ export default function Error() {
     <main>
       <section className="flex justify-center">
         <section
-          className=" w-normalW min-h-startingH bg-no-repeat bg-center bg-contain"
+          className=" w-[80vw] min-h-startingH bg-no-repeat bg-center bg-contain"
           style={{ backgroundImage: `url(${ErrorPage})` }}
         ></section>
       </section>

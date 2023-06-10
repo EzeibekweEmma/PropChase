@@ -5,9 +5,6 @@ export default {
     minHeight: {
       startingH :'80vh',
     },
-    width:{
-      normalW: "80vw",
-    },
     extend: {
       colors: {
         bgc: "#ffffff",
