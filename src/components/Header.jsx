@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import darkLogo from "../assets/darkLogo.png";
-import { roundedUserIcon, menuIcon, closeIcon } from "../components/Icons";
+import {
+  UserCircleIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 function Header() {
   // Styling for the navigation links
@@ -40,7 +44,7 @@ function Header() {
           className={`m-2 justify-center border-tc flex items-center border rounded-lg p-1`}
         >
           {/* User icon */}
-          {roundedUserIcon()}
+          <UserCircleIcon className="h-5 w-5" />
           <span className="pl-1">login</span>
         </Link>
       </div>
@@ -67,7 +71,11 @@ function Header() {
 
           {/* Mobile menu button */}
           <button onClick={showMenu} className="block md:hidden">
-            {displyMenu ? closeIcon(2, 8, 8) : menuIcon(2, 8, 8)}
+            {displyMenu ? (
+              <XMarkIcon className="h-6 w-6" strokeWidth="2" />
+            ) : (
+              <Bars3Icon className="h-6 w-6" strokeWidth="2" />
+            )}
           </button>
         </div>
 
