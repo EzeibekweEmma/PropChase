@@ -2,11 +2,12 @@ import { useState } from "react";
 import lightLogo from "../assets/lightLogo.png";
 import Banner5 from "../assets/banner5.jpg";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
+import { Navigate } from "react-router-dom";
+import axios from "axios";
 
 export default function LogIn() {
-  const [formData, setFormData] = useState({
-    email: "",
-  });
+  const [formData, setFormData] = useState({ email: "" });
+  const [redirect, setRedirect] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -15,16 +16,30 @@ export default function LogIn() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(
-      //checking if password match
-      formData.password === formData.comfrimPassword
-        ? "Successfully signed up"
-        : "Passwords do not match"
-    );
-    console.log(formData);
+
+    try {
+      await axios.post("/resetPassword", {
+        formData,
+      });
+
+      // Displaying a success message to the user
+      alert(
+        `Password reset was successfull! check your email for your new password`
+      );
+
+      setRedirect(true);
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      error.response && error.response.data && error.response.data.message
+        ? // Displaying an error message to the user
+          alert(error.response.data.message)
+        : alert("An error occurred");
+    }
   };
+
+  if (redirect) return <Navigate to={"/login"} />;
 
   return (
     <main>
@@ -38,8 +53,8 @@ export default function LogIn() {
              justify-center"
           >
             <section
-              className="py-12 px-12 hover:skew-y-1 rounded-2xl min-w-[30vw]
-              max-w-[30rem] text-center shadow-xl shadow-yl shadow-tc"
+              className="py-12 px-12 hover:shadow-slate-700 rounded-2xl min-w-[30vw]
+              max-w-[30rem] text-center shadow-md shadow-tc"
             >
               <section className="flex-col">
                 <span className="flex justify-center my-5">
