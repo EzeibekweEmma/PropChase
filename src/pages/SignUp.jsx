@@ -1,7 +1,8 @@
 import { useState } from "react";
 import darkLogo from "../assets/darkLogo.png";
 import Banner3 from "../assets/banner3.jpg";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import axios from "axios";
 import {
   UserIcon,
   EnvelopeIcon,
@@ -15,9 +16,11 @@ export default function SignUp() {
     userName: "",
     email: "",
     password: "",
-    comfrimPassword: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -26,55 +29,39 @@ export default function SignUp() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(
-      //checking if password match
-      formData.password === formData.comfrimPassword
-        ? "Successfully signed up"
-        : "Passwords do not match"
-    );
 
-    console.log(formData);
+    // Checking if password matches
+    if (formData.password === formData.confirmPassword) {
+      try {
+        await axios.post("/signUp", {
+          formData,
+        });
+
+        // Displaying a success message to the user
+        alert(`${formData.userName} was successfully created!`);
+
+        setRedirect(true);
+      } catch (error) {
+        console.error("Error creating user:", error);
+        error.response && error.response.data && error.response.data.message
+          ? // Displaying an error message to the user
+            alert(error.response.data.message)
+          : alert("An error occurred, please try again later");
+      }
+    } else {
+      alert("Passwords do not match");
+    }
   };
+
+  if (redirect) return <Navigate to={"/login"} />;
 
   const handleShowPassword = () => {
     setShowPassword((prevState) => !prevState);
   };
-
-  const inputTenplates = (type, name, value, placeholder, icon) => {
-    return (
-      <label className="relative block mb-3">
-        <span className="absolute inset-y-0 left-0 flex items-center pl-4">
-          {icon}
-        </span>
-        <input
-          className="min-w-full rounded-full bg-slate-100 focus:outline-none
-                  placeholder:italic focus:shadow-md py-2 pl-11 pr-3"
-          type={showPassword ? "text" : type}
-          onChange={handleChange}
-          name={name}
-          value={value}
-          required
-          placeholder={placeholder}
-        />
-
-        {type === "password" ? (
-          <span
-            onClick={handleShowPassword}
-            className="absolute inset-y-0 right-0 flex items-center pr-4"
-          >
-            {showPassword ? (
-              <EyeIcon className="h-5 w-5" />
-            ) : (
-              <EyeSlashIcon className="h-5 w-5" />
-            )}
-          </span>
-        ) : (
-          ""
-        )}
-      </label>
-    );
+  const handleShowCPassword = () => {
+    setShowCPassword((prevState) => !prevState);
   };
 
   return (
@@ -106,7 +93,7 @@ export default function SignUp() {
           <section className="flex md:w-1/2 w-screen items-center justify-center">
             <section
               className="py-12 px-12 rounded-2xl min-w-[30vw] max-w-[30rem]
-              text-center shadow-xl shadow-slate-200 hover:skew-y-1"
+              text-center shadow-md shadow-slate-200 hover:shadow-slate-300"
             >
               <section className="flex-col">
                 <span className="flex justify-center my-5">
@@ -117,34 +104,86 @@ export default function SignUp() {
                 </h2>
               </section>
               <form onSubmit={handleSubmit}>
-                {inputTenplates(
-                  "text",
-                  "userName",
-                  `${formData.userName}`,
-                  "Enter your name!",
-                  <UserIcon className="h-5 w-5" />
-                )}
-                {inputTenplates(
-                  "email",
-                  "email",
-                  `${formData.email}`,
-                  "name@example.com",
-                  <EnvelopeIcon className="h-5 w-5" />
-                )}
-                {inputTenplates(
-                  "password",
-                  "password",
-                  `${formData.password}`,
-                  "Create password!",
-                  <LockClosedIcon className="h-5 w-5" />
-                )}
-                {inputTenplates(
-                  "password",
-                  "comfrimPassword",
-                  `${formData.comfrimPassword}`,
-                  "Comfrim Password!",
-                  <LockClosedIcon className="h-5 w-5" />
-                )}
+                <label className="relative block mb-3">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-4">
+                    <UserIcon className="h-5 w-5" />
+                  </span>
+                  <input
+                    className="min-w-full rounded-full bg-slate-100 focus:outline-none
+                  placeholder:italic focus:shadow-md py-2 pl-11 pr-3"
+                    type="text"
+                    onChange={handleChange}
+                    name="userName"
+                    value={formData.userName}
+                    required
+                    placeholder="Enter your name!"
+                  />
+                </label>
+                <label className="relative block mb-3">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-4">
+                    <EnvelopeIcon className="h-5 w-5" />
+                  </span>
+                  <input
+                    className="min-w-full rounded-full bg-slate-100 focus:outline-none
+                  placeholder:italic focus:shadow-md py-2 pl-11 pr-3"
+                    type="email"
+                    onChange={handleChange}
+                    name="email"
+                    value={formData.email}
+                    required
+                    placeholder="name@example.com"
+                  />
+                </label>
+                <label className="relative block mb-3">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-4">
+                    <LockClosedIcon className="h-5 w-5" />
+                  </span>
+                  <input
+                    className="min-w-full rounded-full bg-slate-100 focus:outline-none
+                  placeholder:italic focus:shadow-md py-2 pl-11 pr-3"
+                    type={showPassword ? "type" : "password"}
+                    onChange={handleChange}
+                    name="password"
+                    value={formData.password}
+                    required
+                    placeholder="Create password!"
+                  />
+                  <span
+                    onClick={handleShowPassword}
+                    className="absolute inset-y-0 right-0 flex items-center pr-4"
+                  >
+                    {showPassword ? (
+                      <EyeIcon className="h-5 w-5" />
+                    ) : (
+                      <EyeSlashIcon className="h-5 w-5" />
+                    )}
+                  </span>
+                </label>
+                <label className="relative block mb-3">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-4">
+                    <LockClosedIcon className="h-5 w-5" />
+                  </span>
+                  <input
+                    className="min-w-full rounded-full bg-slate-100 focus:outline-none
+                  placeholder:italic focus:shadow-md py-2 pl-11 pr-3"
+                    type={showCPassword ? "type" : "password"}
+                    onChange={handleChange}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    required
+                    placeholder="Comfrim Password!"
+                  />
+                  <span
+                    onClick={handleShowCPassword}
+                    className="absolute inset-y-0 right-0 flex items-center pr-4"
+                  >
+                    {showCPassword ? (
+                      <EyeIcon className="h-5 w-5" />
+                    ) : (
+                      <EyeSlashIcon className="h-5 w-5" />
+                    )}
+                  </span>
+                </label>
                 <button className="bg-tc mt-1 text-bgc rounded-full py-2 min-w-full font-semibold">
                   Submit
                 </button>
