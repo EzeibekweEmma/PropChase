@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import darkLogo from "../assets/darkLogo.png";
 import {
@@ -6,8 +6,11 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { UserContext } from "./UserContext";
 
 function Header() {
+  const { user } = useContext(UserContext);
+
   // Styling for the navigation links
   const navStyling = "p-1 m-2 border-tc hover:border-b-4";
 
@@ -15,7 +18,7 @@ function Header() {
   const isActive = ({ isActive }) =>
     isActive ? `border-b-4 text-bgc ${navStyling}` : navStyling;
 
-  // State for displaying the mobile men
+  // State for displaying the mobile menu
   const [displyMenu, setDisplyMenu] = useState(false);
 
   const navbar = () => {
@@ -40,12 +43,13 @@ function Header() {
           </NavLink>
         </nav>
         <Link
-          to="login"
+        // if user is logged in navigate to account
+          to={user ? "account" : "login"}
           className={`m-2 justify-center border-tc flex items-center border rounded-lg p-1`}
         >
           {/* User icon */}
           <UserCircleIcon className="h-5 w-5" />
-          <span className="pl-1">login</span>
+          <span className="pl-1">{user ? user.userName : "login"}</span>
         </Link>
       </div>
     );

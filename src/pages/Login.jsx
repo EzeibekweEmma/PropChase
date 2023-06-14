@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import darkLogo from "../assets/darkLogo.png";
 import Banner4 from "../assets/banner4.jpg";
 import { Link, Navigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import {
   EyeIcon,
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
+import { UserContext } from "../components/UserContext";
 
 export default function LogIn() {
   const [formData, setFormData] = useState({
@@ -17,7 +18,8 @@ export default function LogIn() {
     rememberMe: false,
   });
   const [showPassword, setShowPassword] = useState(false);
-   const [redirect, setRedirect] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+  const {setUser} = useContext(UserContext);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -29,25 +31,24 @@ export default function LogIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-      try {
-        await axios.post("/login", {
-          formData,
-        });
+    try {
+      const {data} = await axios.post("/login", { formData });
+      setUser(data)
+      console.log(data);
+      // Displaying a success message to the user
+      alert(`Log in successfully!`);
 
-        // Displaying a success message to the user
-        alert(`Log in successfully!`);
-
-        setRedirect(true);
-      } catch (error) {
-        console.error("Error logging user:", error);
-        error.response && error.response.data && error.response.data.message
-          ? // Displaying an error message to the user
-            alert(error.response.data.message)
-          : alert("An error occurred");
-      }
+      setRedirect(true);
+    } catch (error) {
+      console.error("Error logging user:", error);
+      error.response && error.response.data && error.response.data.message
+        ? // Displaying an error message to the user
+          alert(error.response.data.message)
+        : alert("An error occurred");
+    }
   };
 
-   if (redirect) return <Navigate to={"/"} />;
+  if (redirect) return <Navigate to={"/"} />;
 
   const handleShowPassword = () => {
     setShowPassword((prevState) => !prevState);

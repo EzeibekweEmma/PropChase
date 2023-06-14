@@ -1,5 +1,10 @@
 export default function About() {
   return (
-    <div>About</div>
-  )
+    <main>
+      <section className="flex justify-center">
+        <div>About</div>
+        <section className=" w-normalW"></section>
+      </section>
+    </main>
+  );
 }

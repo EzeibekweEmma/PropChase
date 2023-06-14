@@ -1,5 +1,10 @@
 export default function Host() {
   return (
-    <div>Host</div>
-  )
+    <main>
+      <section className="flex justify-center">
+        <div>Host</div>
+        <section className=" w-normalW"></section>
+      </section>
+    </main>
+  );
 }
