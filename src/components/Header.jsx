@@ -1,15 +1,22 @@
 import { useState, useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, Navigate } from "react-router-dom";
 import darkLogo from "../assets/darkLogo.png";
+import axios from "axios";
 import {
   UserCircleIcon,
   Bars3Icon,
   XMarkIcon,
+  ArrowRightCircleIcon,
 } from "@heroicons/react/24/outline";
 import { UserContext } from "./UserContext";
 
 function Header() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const [logoutConfirmed, setLogoutConfirmed] = useState(false);
+
+  // State for displaying the mobile menu
+  const [displyMenu, setDisplyMenu] = useState(false);
+  const [displyHostMenu, setDisplyHostMenu] = useState(false);
 
   // Styling for the navigation links
   const navStyling = "p-1 m-2 border-tc hover:border-b-4";
@@ -18,8 +25,56 @@ function Header() {
   const isActive = ({ isActive }) =>
     isActive ? `border-b-4 text-bgc ${navStyling}` : navStyling;
 
-  // State for displaying the mobile menu
-  const [displyMenu, setDisplyMenu] = useState(false);
+  const showMenu = () => {
+    // Function to toggle the mobile menu
+    setDisplyMenu((prevDisplyMenu) => !prevDisplyMenu);
+  };
+  const showMenu2 = () => {
+    // Function to toggle the mobile menu
+    setDisplyHostMenu((prevMenu) => !prevMenu);
+  };
+
+  const handleLogout = async () => {
+    if (confirm("You are about to log out!")) {
+      await axios.post("/logout");
+      setUser(null);
+      setLogoutConfirmed(true);
+      setDisplyHostMenu(false);
+    }
+  };
+  // Check if logout is confirmed
+  if (logoutConfirmed) {
+    return <Navigate to="/" />;
+  }
+
+  const dropDownMenu = () => {
+    return (
+      // dropdown menu
+      // if user is logged in navigate to account
+      <div className="flex flex-col md:absolute bg-lbgc rounded-b-lg pb-2">
+        <Link to={user ? "/host" : "/login"} className={navStyling}>
+          View Profile
+        </Link>
+        <Link to={user ? "/host/bookings" : "/login"} className={navStyling}>
+          Bookings
+        </Link>
+        <Link
+          to={user ? "/host/accommodations" : "/login"}
+          className={navStyling}
+        >
+          Accommodations
+        </Link>
+        <button
+          className="flex m-auto w-fit items-center bg-tc text-bgc px-2
+              py-1 hover:bg-opacity-80 rounded-lg space-x-1"
+          onClick={handleLogout}
+        >
+          <ArrowRightCircleIcon className="w-6 h-6" />
+          <span>logOut</span>
+        </button>
+      </div>
+    );
+  };
 
   const navbar = () => {
     // Function to render the navigation links
@@ -35,33 +90,43 @@ function Header() {
           <NavLink to="services" className={isActive}>
             Services
           </NavLink>
-          <NavLink to="about" className={isActive}>
-            About
-          </NavLink>
-          <NavLink to="host" className={isActive}>
+          <NavLink to={user ? "/host" : "/login"} className={isActive}>
             Host
           </NavLink>
         </nav>
-        <Link
-        // if user is logged in navigate to account
-          to={user ? "account" : "login"}
-          className={`m-2 justify-center border-tc flex items-center border rounded-lg p-1`}
-        >
-          {/* User icon */}
-          <UserCircleIcon className="h-5 w-5" />
-          <span className="pl-1">{user ? user.userName : "login"}</span>
-        </Link>
+        <div>
+          {user ? (
+            <button
+              className={`m-auto mb-2 border-tc flex items-center
+            border rounded-lg p-1`}
+              onClick={showMenu2}
+            >
+              {/* User icon */}
+              <UserCircleIcon className="h-9 w-9" />
+              <span className="pl-1">{user ? user.userName : "logIn"}</span>
+            </button>
+          ) : (
+            <Link
+              className={`justify-center mb-2 border-tc flex items-center
+            border rounded-lg p-1`}
+              to="/login"
+            >
+              {/* User icon */}
+              <UserCircleIcon className="h-9 w-9" />
+              <span className="pl-1">{user ? user.userName : "logIn"}</span>
+            </Link>
+          )}
+          {displyHostMenu ? dropDownMenu() : null}
+        </div>
       </div>
     );
   };
 
-  const showMenu = () => {
-    // Function to toggle the mobile menu
-    setDisplyMenu((prevDisplyMenu) => !prevDisplyMenu);
-  };
-
   return (
-    <header className="flex sticky top-0 justify-center border-tc border-b text-tc bg-slate-300">
+    <header
+      className="flex sticky top-0 justify-center border-tc border-b
+    z-50 text-tc bg-lbgc"
+    >
       <div>
         <div className="flex justify-between w-[80vw] my-2 items-center font-semibold md:">
           {/* Logo and site name */}
