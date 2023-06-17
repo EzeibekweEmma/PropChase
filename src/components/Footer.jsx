@@ -48,13 +48,20 @@ export default function Footer() {
               {/* Services */}
               <div className="py-2 w-fit border-b-2">Services</div>
               <div className="flex flex-col text-sm font-light space-y-1">
-                <Link className="hover:font-normal w-fit">Make Booking</Link>
-                <Link className="hover:font-normal w-fit">Add Property</Link>
                 <Link to="/host" className="hover:font-normal w-fit">
-                  Host
+                  Host Page
                 </Link>
-                <Link to="/about" className="hover:font-normal w-fit">
-                  About
+                <Link to="/host/bookings" className="hover:font-normal w-fit">
+                  Check Booking
+                </Link>
+                <Link
+                  to="/host/accommodations"
+                  className="hover:font-normal w-fit"
+                >
+                  Add Property
+                </Link>
+                <Link to="/services" className="hover:font-normal w-fit">
+                  Explore Property
                 </Link>
               </div>
             </div>
@@ -64,7 +71,7 @@ export default function Footer() {
               <div className="flex flex-col text-sm font-light space-y-1">
                 <Link className="hover:font-normal w-fit">FAQ</Link>
                 <Link className="hover:font-normal w-fit">Help</Link>
-                <Link to="/account" className="hover:font-normal w-fit">
+                <Link className="hover:font-normal w-fit">
                   Your Account
                 </Link>
                 <Link className="hover:font-normal w-fit">Privacy Policy</Link>
