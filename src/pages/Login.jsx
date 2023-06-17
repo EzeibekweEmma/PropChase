@@ -8,6 +8,7 @@ import {
   LockClosedIcon,
   EyeIcon,
   EyeSlashIcon,
+  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { UserContext } from "../components/UserContext";
 
@@ -34,7 +35,6 @@ export default function LogIn() {
     try {
       const {data} = await axios.post("/login", { formData });
       setUser(data)
-      console.log(data);
       // Displaying a success message to the user
       alert(`Log in successfully!`);
 
@@ -149,8 +149,15 @@ export default function LogIn() {
                     Forget Password?
                   </Link>
                 </div>
-                <button className="bg-tc mt-1 text-bgc rounded-full py-2 min-w-full font-semibold">
-                  Submit
+                <button
+                  className="flex justify-center items-center space-x-1 bg-tc 
+              text-bgc px-2 py-1 hover:bg-opacity-80 rounded-full min-w-full"
+                >
+                  <ArrowRightOnRectangleIcon
+                    strokeWidth={2}
+                    className="w-5 h-5"
+                  />
+                  <span>LogIn</span>
                 </button>
                 <span className="font-medium text-sm">
                   Don&apos;t have an account?{" "}

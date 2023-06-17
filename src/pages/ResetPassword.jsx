@@ -1,7 +1,7 @@
 import { useState } from "react";
 import lightLogo from "../assets/lightLogo.png";
 import Banner5 from "../assets/banner5.jpg";
-import { EnvelopeIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
@@ -83,10 +83,11 @@ export default function LogIn() {
                   />
                 </label>
                 <button
-                  className="bg-tc mt-1 text-bgc rounded-full py-2
-                min-w-full font-semibold"
+                  className="flex justify-center items-center space-x-1 bg-tc 
+              text-bgc px-2 py-1 hover:bg-opacity-80 rounded-full min-w-full"
                 >
-                  Reset
+                  <ArrowPathIcon strokeWidth={2} className="w-5 h-5" />
+                  <span>Reset</span>
                 </button>
               </form>
             </section>

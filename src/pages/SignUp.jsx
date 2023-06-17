@@ -9,6 +9,7 @@ import {
   LockClosedIcon,
   EyeIcon,
   EyeSlashIcon,
+  ArrowUpOnSquareIcon,
 } from "@heroicons/react/24/outline";
 
 export default function SignUp() {
@@ -184,8 +185,15 @@ export default function SignUp() {
                     )}
                   </span>
                 </label>
-                <button className="bg-tc mt-1 text-bgc rounded-full py-2 min-w-full font-semibold">
-                  Submit
+                <button
+                  className="flex justify-center items-center space-x-1 bg-tc 
+              text-bgc px-2 py-1 hover:bg-opacity-80 rounded-full min-w-full"
+                >
+                  <ArrowUpOnSquareIcon
+                    strokeWidth={2}
+                    className="w-5 h-5"
+                  />
+                  <span>SignUp</span>
                 </button>
                 <span className="font-medium text-sm">
                   Already have an account?{" "}
