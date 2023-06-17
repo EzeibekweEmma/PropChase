@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 import heroBanner from "../assets/heroBanner.png";
 import Banner1 from "../assets/banner.jpg";
-import Banner2 from "../assets/banner2.jpg";
 import insurance from "../assets/insurance.png";
 import reduction from "../assets/reduction.png";
 import tax from "../assets/tax.png";
@@ -48,7 +47,7 @@ export default function Home() {
         {/* Section highlighting reasons to choose the company */}
         <section className=" w-[80vw]">
           <article className="my-20">
-            <h1 className="text-3xl md:text-5xl text-slate-500">
+            <h1 className="text-3xl md:text-5xl text-ltc">
               Why <span className="font-semibold text-tc">Choose</span> Us?
             </h1>
             <h2 className="text-xl md:text-2xl my-5">
@@ -67,7 +66,7 @@ export default function Home() {
                   <h2 className="text-xl font-semibold md:text-2xl">
                     Property Insurance
                   </h2>
-                  <p className="text-slate-500 text-sm">
+                  <p className="text-ltc text-sm">
                     Fusce sed quam sed mauris imperdiet cursus.
                   </p>
                 </span>
@@ -77,7 +76,7 @@ export default function Home() {
                   <h2 className="text-xl font-semibold md:text-2xl">
                     Lowest Commission
                   </h2>
-                  <p className="text-slate-500 text-sm">
+                  <p className="text-ltc text-sm">
                     Donec at dolor vel urna scelerisque fermentum.
                   </p>
                 </span>
@@ -89,7 +88,7 @@ export default function Home() {
                   <h2 className="text-xl font-semibold md:text-2xl ">
                     Tax Adavantage
                   </h2>
-                  <p className="text-slate-500 text-sm">
+                  <p className="text-ltc text-sm">
                     Cras pulvinar mollis erat vitae consectetur.
                   </p>
                 </span>
@@ -99,7 +98,7 @@ export default function Home() {
                   <h2 className="text-xl font-semibold md:text-2xl">
                     24 hour Consuitation
                   </h2>
-                  <p className="text-slate-500 text-sm">
+                  <p className="text-ltc text-sm">
                     Sed vehicula pretium congue.
                   </p>
                 </span>
@@ -108,44 +107,56 @@ export default function Home() {
           </article>
 
           {/* Section highlighting company's services */}
-          <section className=" mb-20">
-            <div className="flex flex-col-reverse md:flex-row items-center justify-between">
-              <article className="mt-10 md:mt-0">
-                <span className="font-semibold">What We Do</span>
-                <h2 className="text-3xl text-slate-500 mb-5 lg:text-5xl">
-                  We Provide The Best{" "}
-                  <span className="text-tc font-semibold">Property</span> For
-                  You.
-                </h2>
-                <p className="mb-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                  suscipit tellus in risus tincidunt accumsan.
-                </p>
-                <p className="mb-4">
-                  Maecenas magna erat, sagittis et nibh eu, vestibulum maximus
-                  massa. Ut ornare magna sit amet ante accumsan, vel tincidunt
-                  augue placerat.
-                </p>
-                <p className="mb-4">
-                  Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                  Integer interdum, enim non suscipit feugiat, leo mi pulvinar
-                  metus, a lacinia arcu enim eget mauris.
-                </p>
-                <br />
-                <Link
-                  to="about"
-                  className="py-3 px-6 mt-10 hover:rounded-3xl
+          <section className="mb-20 ">
+            <article className="mt-10 md:mt-0">
+              <span className="font-semibold">What We Do</span>
+              <h2 className="text-3xl text-ltc mb-5 lg:text-5xl">
+                We Help Clients{" "}
+                <span className="text-tc font-semibold">Reach</span> their Dream
+                Property.
+              </h2>
+              <p className="mb-2">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+                suscipit tellus in risus tincidunt accumsan. Integer interdum,
+                enim non suscipit feugiat, leo mi pulvinar metus, a lacinia arcu
+                enim eget mauris. Maecenas magna erat, sagittis et nibh eu,
+                vestibulum maximus massa. Ut ornare magna sit amet ante
+                accumsan, vel tincidunt augue placerat. Maecenas magna erat,
+                sagittis et nibh eu, vestibulum maximus massa. Ut ornare magna
+                sit amet ante accumsan, vel tincidunt augue placerat. Maecenas
+                magna erat, sagittis et nibh eu, vestibulum maximus massa. Ut
+                ornare magna sit amet ante accumsan, vel tincidunt augue
+                placerat.
+              </p>
+              <p className="mb-2">
+                Maecenas magna erat, sagittis et nibh eu, vestibulum maximus
+                massa. Ut ornare magna sit amet ante accumsan, vel tincidunt
+                augue placerat. Maecenas magna erat, sagittis et nibh eu,
+                vestibulum maximus massa. Ut ornare magna sit amet ante
+                accumsan, vel tincidunt augue placerat. Maecenas magna erat,
+                sagittis et nibh eu, vestibulum maximus massa. Ut ornare magna
+                sit amet ante accumsan, vel tincidunt augue placerat. Maecenas
+                magna erat, sagittis et nibh eu, vestibulum maximus massa. Ut
+                ornare magna sit amet ante accumsan, vel tincidunt augue
+                placerat.
+              </p>
+              <p className="mb-4">
+                Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                Integer interdum, enim non suscipit feugiat, leo mi pulvinar
+                metus, a lacinia arcu enim eget mauris. Interdum et malesuada
+                fames ac ante ipsum primis in faucibus. Integer interdum, enim
+                non suscipit feugiat, leo mi pulvinar metus, a lacinia arcu enim
+                eget mauris.
+              </p>
+              <br />
+              <Link
+                to="services"
+                className="py-4 px-8 mt-10 hover:rounded-3xl
                  bg-tc text-bgc font-semibold border-white"
-                >
-                  About Us
-                </Link>
-              </article>
-              <img
-                src={Banner2}
-                className="h-[50vh] w-[80vw] rounded-xl md:h-[70vh] md:min-w-[40vw] mr-10"
-                alt=""
-              />
-            </div>
+              >
+                Explore More!
+              </Link>
+            </article>
 
             {/* Section with property statistics */}
             <div
@@ -156,21 +167,21 @@ export default function Home() {
               <div className="flex justify-around md:space-x-0 space-x-10 flex-grow md:mb-0 mb-10">
                 <span className="">
                   <h2 className="text-xl font-semibold md:text-3xl">5,489+</h2>
-                  <p className="text-slate-500">Available Property</p>
+                  <p className="text-ltc">Available Property</p>
                 </span>
                 <span className="">
                   <h2 className="text-xl font-semibold md:text-3xl">2,230+</h2>
-                  <p className="text-slate-500">Recently Sold Property</p>
+                  <p className="text-ltc">Recently Sold Property</p>
                 </span>
               </div>
               <div className="flex md:space-x-0 space-x-10 justify-around  flex-grow">
                 <span className="-ml-5 mr-7 md:m-0">
                   <h2 className="text-xl font-semibold md:text-3xl ">3,600+</h2>
-                  <p className="text-slate-500">Happy Costumers</p>
+                  <p className="text-ltc">Happy Costumers</p>
                 </span>
                 <span className="">
                   <h2 className="text-xl font-semibold md:text-3xl">1,450+</h2>
-                  <p className="text-slate-500">Property for sale</p>
+                  <p className="text-ltc">Property for sale</p>
                 </span>
               </div>
             </div>
@@ -180,12 +191,12 @@ export default function Home() {
           <section className="flex flex-col md:flex-row items-center justify-between mb-10">
             <img
               src={Banner1}
-              className="h-[50vh] w-[80vw] rounded-xl md:h-[70vh] md:min-w-[40vw] mr-10"
+              className="h-[50vh] w-[80vw] rounded-xl md:h-[70vh] md:min-w-[40vw] md:mr-10"
               alt=""
             />
             <article className="mt-10 md:mt-0">
               <span className="font-semibold">About Us</span>
-              <h2 className="text-3xl text-slate-500 mb-5 lg:text-5xl">
+              <h2 className="text-3xl text-ltc mb-5 lg:text-5xl">
                 We Provide The Best{" "}
                 <span className="text-tc font-semibold">Property</span> For You.
               </h2>
