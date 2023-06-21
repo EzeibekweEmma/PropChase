@@ -5,19 +5,24 @@ const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-require("dotenv").config();
-
+const imageDownloader = require("image-downloader");
+const multer = require("multer");
+const fs = require("fs");
 const {
   generateRandomPassword,
   sendNewPasswordEmail,
 } = require("./settingPassword");
 
+require("dotenv").config();
+
 const app = express();
 const PORT = 3000;
+const multerUpload = multer({ dest: "uploads/" });
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(
   cors({
     origin: "http://127.0.0.1:5173",
@@ -72,6 +77,8 @@ app.post("/signUp", async (req, res) => {
       userName,
       email,
       password: hashedPassword,
+      description: "About me!",
+      avater: "",
     });
 
     const savedUser = await newUser.save();
@@ -102,7 +109,7 @@ app.post("/login", async (req, res) => {
       if (isPasswordValid) {
         // Generate a JWT token with the user's email and id
         jwt.sign(
-          { email: existingUser.email, id: existingUser._id},
+          { email: existingUser.email, id: existingUser._id },
           jwtSecret,
           {},
           (err, token) => {
@@ -160,11 +167,64 @@ app.get("/profile", (req, res) => {
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
-      const {userName, email, _id} = await User.findById(userData.id)
-      res.json({userName, email, _id});
+      const { userName, email, _id, description, avater } = await User.findById(
+        userData.id
+      );
+      res.json({ userName, email, _id, description, avater });
     });
   } else {
     res.json(null);
+  }
+});
+
+app.post("/editProfile", (req, res) => {
+  console.log(req.body.formData);
+});
+
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json(true);
+});
+
+app.post("/uploadByLink", async (req, res) => {
+  try {
+    const { link } = req.body;
+    const newName = "propChase-" + Date.now() + ".jpg";
+    const options = {
+      url: link,
+      dest: __dirname + "/uploads/" + newName,
+    };
+
+    await imageDownloader.image(options);
+    res.status(200).json(newName);
+  } catch (error) {
+    console.error(error);
+    res.status(403).json({
+      message:
+        "Unable to save photo. Please check your internet connection or ensure that the link is valid and in JPG format.",
+    });
+  }
+});
+
+app.post("/uploadFromDevice", multerUpload.array("photos", 20), (req, res) => {
+  try {
+    const uploadFiles = [];
+    for (let i = 0; i < req.files.length; i++) {
+      const { path, originalname } = req.files[i];
+      const paths = originalname.split(".");
+      const ext = paths[paths.length - 1];
+      const newPath = path + "." + ext;
+
+      // Rename the file with the appropriate extension
+      fs.renameSync(path, newPath);
+
+      // Add the new path to the uploadFiles array
+      uploadFiles.push(newPath.replace("uploads\\", ""));
+    }
+    // Send the uploadFiles array as a JSON response
+    res.json(uploadFiles);
+  } catch (error) {
+    // Handle the error and send an appropriate response
+    res.status(500).json({ error: "Failed to upload files" });
   }
 });
 
