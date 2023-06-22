@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/User");
+const Property = require("./models/Property");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -200,7 +201,7 @@ app.post("/uploadByLink", async (req, res) => {
     console.error(error);
     res.status(403).json({
       message:
-        "Unable to save photo. Please check your internet connection or ensure that the link is valid and in JPG format.",
+        "Unable to upload photo. Please check your internet connection, photo link or download to device and use the 'Upload From Device' option to upload photo.",
     });
   }
 });
@@ -224,8 +225,56 @@ app.post("/uploadFromDevice", multerUpload.array("photos", 20), (req, res) => {
     res.json(uploadFiles);
   } catch (error) {
     // Handle the error and send an appropriate response
-    res.status(500).json({ error: "Failed to upload files" });
+    res.status(500).json({ message: "Failed to upload files" });
   }
+});
+
+app.post("/newProperty", async (req, res) => {
+  // Create a new property
+  try {
+    const { token } = req.cookies;
+    const {
+      title,
+      address,
+      description,
+      extraInfo,
+      formPerks: perks,
+      addedphoto: photos,
+      checkIn,
+      checkOut,
+      maxGuests,
+    } = req.body.formsData;
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err;
+      const newProperty = new Property({
+        owner: userData.id,
+        title,
+        address,
+        description,
+        extraInfo,
+        perks,
+        photos,
+        checkIn,
+        checkOut,
+        maxGuests,
+      });
+
+      const saveProperty = await newProperty.save();
+      res.json({ success: "Okay", saveProperty });
+    });
+  } catch (error) {
+    console.error("Error creating property:", error);
+    res.status(500).json({ error: "Error creating property" });
+  }
+});
+
+app.get("/properties", (req, res) => {
+  // Get properties owned by user
+  const { token } = req.cookies;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    const { id } = userData;
+    res.json(await Property.find({ owner: id }));
+  });
 });
 
 // Start the server
