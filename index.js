@@ -178,8 +178,96 @@ app.get("/profile", (req, res) => {
   }
 });
 
-app.post("/editProfile", (req, res) => {
-  console.log(req.body.formData);
+app.get("/getProfile", async (req, res) => {
+  // Retrieve user profile data
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      // checks for a token in the cookies and verifies it using the jwt.verify method
+      if (err) throw err;
+      const { userName, description, avater } = await User.findById(
+        userData.id
+      );
+      res.json({ userName, description, avater });
+    });
+  } else {
+    res.json(null);
+  }
+});
+
+app.put("/editProfile", async (req, res) => {
+  // Update a user Profile
+  try {
+    const { token } = req.cookies;
+    const { userName, oldPassword, newPassword, avater, description } =
+      req.body;
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      // checks for a token in the cookies and verifies it using the jwt.verify method
+      if (err) throw err;
+
+      const editProfile = await User.findById(userData.id);
+
+      if (oldPassword) {
+        // if oldPassword exist - compare the provided oldPassword with
+        // the hashed password stored in the editProfile object
+        let errorMessage;
+        try {
+          const isPasswordValid = bcrypt.compareSync(
+            oldPassword,
+            editProfile.password
+          );
+          // if isPasswordValid is false password did't match
+          if (!isPasswordValid) {
+            errorMessage = "Sorry! password didn't match previous password";
+            throw new Error(errorMessage);
+          } else if (oldPassword === newPassword) {
+            // oldPassword and newPassword shouldn't match
+            errorMessage =
+              "Sorry! new password can't be the same with old password!";
+            throw new Error(errorMessage);
+          }
+        } catch (error) {
+          console.error(errorMessage + ":", error);
+          res.status(403).json({ message: errorMessage });
+          return;
+        }
+        const bcryptSalt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(newPassword, bcryptSalt);
+        editProfile.set({ password: hashedPassword });
+      }
+
+      // Updated the user's fields
+      editProfile.set({
+        userName,
+        avater,
+        description,
+      });
+
+      const editedProfile = await editProfile.save();
+      res.json({ success: "Okay", editedProfile });
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ error: "Error updating profile" });
+  }
+});
+
+app.post("/uploadSinglePhoto", multerUpload.single("photo"), (req, res) => {
+  try {
+    const { path, originalname } = req.file;
+    const paths = originalname.split(".");
+    const ext = paths[paths.length - 1];
+    const newPath = path + "." + ext;
+
+    // Rename the file with the appropriate extension
+    fs.renameSync(path, newPath);
+
+    // Send the new path as a JSON response
+    res.json(newPath.replace("uploads\\", ""));
+  } catch (error) {
+    // Handle the error and send an appropriate response
+    res.status(500).json({ message: "Failed to upload file" });
+  }
 });
 
 app.post("/logout", (req, res) => {
