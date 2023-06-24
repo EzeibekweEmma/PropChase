@@ -94,7 +94,6 @@ export default function UploadPhotos({
           multiple
           accept="image/jpeg, image/png"
           hidden
-          placeholder="Add photo using links... format: jpg"
         />
         <span
           className="inset-y-0 left-0 flex justify-center border-2 h-40
