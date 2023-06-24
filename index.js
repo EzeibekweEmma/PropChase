@@ -277,6 +277,64 @@ app.get("/properties", (req, res) => {
   });
 });
 
+app.get("/property/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Property.findById(id));
+});
+
+app.put("/upateProperty", async (req, res) => {
+  // Update a property by id
+  try {
+    const { token } = req.cookies;
+    const {
+      id,
+      title,
+      address,
+      description,
+      extraInfo,
+      formPerks: perks,
+      addedphoto: photos,
+      checkIn,
+      checkOut,
+      maxGuests,
+    } = req.body;
+
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err;
+
+      const updateProperty = await Property.findById(id);
+      // checking if the property with the provided ID exists
+      if (!updateProperty) {
+        return res.status(404).json({ error: "Property not found" });
+      }
+
+      if (userData.id !== updateProperty.owner.toString()) {
+        return res
+          .status(403)
+          .json({ error: "Unauthorized to update this property" });
+      }
+      // Updated the property's fields
+      updateProperty.set({
+        title,
+        address,
+        description,
+        extraInfo,
+        perks,
+        photos,
+        checkIn,
+        checkOut,
+        maxGuests,
+      });
+
+      const updatedProperty = await updateProperty.save();
+      res.json({ success: "Okay", updatedProperty });
+    });
+  } catch (error) {
+    console.error("Error creating property:", error);
+    res.status(500).json({ error: "Error creating property" });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
