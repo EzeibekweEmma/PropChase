@@ -13,6 +13,7 @@ const {
   generateRandomPassword,
   sendNewPasswordEmail,
 } = require("./settingPassword");
+const { clear } = require("console");
 
 require("dotenv").config();
 
@@ -151,7 +152,7 @@ app.post("/resetPassword", async (req, res) => {
 
       // Send the new password to the user (e.g., via email)
       // sendNewPasswordEmail(existingUser.email, newPassword);
-      console.log(existingUser.email, newPassword);
+      console.log(existingUser.email, "=", newPassword);
       res.status(200).json({ message: "Password reset successful" });
     } else {
       // User not found
@@ -164,9 +165,11 @@ app.post("/resetPassword", async (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
+  // Retrieve user profile data
   const { token } = req.cookies;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      // checks for a token in the cookies and verifies it using the jwt.verify method
       if (err) throw err;
       const { userName, email, _id, description, avater } = await User.findById(
         userData.id
@@ -294,7 +297,7 @@ app.post("/uploadByLink", async (req, res) => {
   }
 });
 
-app.post("/uploadFromDevice", multerUpload.array("photos", 20), (req, res) => {
+app.post("/uploadFromDevice", multerUpload.array("photos", 50), (req, res) => {
   try {
     const uploadFiles = [];
     for (let i = 0; i < req.files.length; i++) {
@@ -356,7 +359,7 @@ app.post("/newProperty", async (req, res) => {
   }
 });
 
-app.get("/properties", (req, res) => {
+app.get("/userProperty", (req, res) => {
   // Get properties owned by user
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
