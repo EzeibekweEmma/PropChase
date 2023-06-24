@@ -3,7 +3,7 @@ import Layout from "./components/Layout";
 import HostLayout from "./pages/HostComponents/HostLayout";
 import Home from "./pages/Home";
 import Services from "./pages/Services";
-import Accommodations from "./pages/HostComponents/Accommodations";
+import Property from "./pages/HostComponents/Property";
 import Profile from "./pages/HostComponents/Profile";
 import Bookings from "./pages/HostComponents/Bookings";
 import Login from "./pages/Login";
@@ -12,6 +12,8 @@ import ResetPassword from "./pages/ResetPassword";
 import Error from "./pages/Error";
 import axios from "axios";
 import { UserContextProvider } from "./components/UserContext";
+import AddNewProperty from "./pages/HostComponents/AddNewProperty";
+import EditProfile from "./pages/HostComponents/EditProfile";
 
 axios.defaults.baseURL = "http://127.0.0.1:3000";
 axios.defaults.withCredentials = true;
@@ -25,8 +27,11 @@ function App() {
           <Route path="services" element={<Services />} />
           <Route path="host" element={<HostLayout />}>
             <Route index element={<Profile />} />
+            <Route path="editProfile" element={<EditProfile />} />
             <Route path="bookings" element={<Bookings />} />
-            <Route path="accommodations" element={<Accommodations />} />
+            <Route path="property" element={<Property />} />
+            <Route path="property/new" element={<AddNewProperty />} />
+            <Route path="property/:id" element={<AddNewProperty />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="signUp" element={<SignUp />} />
