@@ -1,10 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../components/UserContext";
 import { Navigate, Link } from "react-router-dom";
-import {
-  UserIcon,
-  PencilSquareIcon,
-} from "@heroicons/react/24/outline";
+import { UserIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 
 export default function Profile() {
@@ -14,7 +11,7 @@ export default function Profile() {
     description: "",
     avater: "",
   });
-  
+
   useEffect(() => {
     // getting and setting userData from endpoint
     axios
@@ -39,8 +36,8 @@ export default function Profile() {
     <main>
       <section className="flex justify-center text-tc">
         <section className="w-[80vw] min-h-[53vh] space-y-5">
-          <section className="flex border-b py-3 text-center font-medium items-center">
-            <section className="w-24 h-24 sm:w-40 sm:h-40 border rounded-full">
+          <section className="flex flex-col sm:flex-row border-b py-3 text-center font-medium items-center">
+            <section className="w-40 h-40 border rounded-full">
               {userData.avater ? (
                 <img
                   src={`http://127.0.0.1:3000/uploads/${userData.avater}`}
@@ -50,14 +47,12 @@ export default function Profile() {
                 <UserIcon className="p-5" />
               )}
             </section>
-            <section className="w=1/2 ml-5 text-left">
+            <section className="ml-5 text-left">
               <h2 className="text-xl sm:text-3xl font-bold">
                 {userData.userName}
               </h2>
-              <h2 className="">
-                {userData.email}
-              </h2>
-              <p className="text-ltc">{userData.description}</p>
+              <h2 className="">{userData.email}</h2>
+
               <Link
                 to="editProfile"
                 className="flex items-center space-x-1 bg-tc text-bgc px-2
@@ -68,6 +63,12 @@ export default function Profile() {
               </Link>
             </section>
           </section>
+          <div className="pb-5">
+            <h3 className="text-xl font-semibold mb-2 border-b-2 border-tc w-fit">
+              About Me:
+            </h3>
+            <p className="text-ltc text-justify">{userData.description}</p>
+          </div>
         </section>
       </section>
     </main>
