@@ -19,19 +19,107 @@ export default function SignUp() {
     password: "",
     confirmPassword: "",
   });
+  const [passwordRStrength, setPasswordRStrength] = useState({
+    //passwordRequirementsStrength
+    totalCharacters: false,
+    isNumber: false,
+    isSymbol: false,
+    isUpper: false,
+    isLower: false,
+    isEmail: true,
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showCPassword, setShowCPassword] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
   const handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
+    const { name, value } = event.target;
     setFormData((prevFormData) => {
-      return { ...prevFormData, [name]: type === "checkbox" ? checked : value };
+      return { ...prevFormData, [name]: value };
     });
+
+    // RegExp here is used to check the password strength
+    if (name === "password") {
+      setPasswordRStrength((prevPasswordRStrength) => {
+        return {
+          ...prevPasswordRStrength,
+          totalCharacters: value.length > 7,
+          isUpper: /[A-Z]/.test(value),
+          isLower: /[a-z]/.test(value),
+          isNumber: /[0-9]/.test(value),
+          isSymbol: /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(value),
+        };
+      });
+    }
+
+    // RegExp here is used validate an email address
+    if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      // ^ = asserts the start of the string.
+      // [^\s@]+ = matches one or more characters that are not whitespace or @.
+      // @ = matches the @ symbol.
+      // \. = matches a literal dot.
+      // $ = asserts the end of the string.
+      setPasswordRStrength((prevPasswordRStrength) => {
+        return { ...prevPasswordRStrength, isEmail: emailRegex.test(value) };
+      });
+      console.log(emailRegex.test(value));
+    }
+    console.log(passwordRStrength);
   };
+
+  const passwordRequirements = () => {
+    return (
+      <ul className="list-disc ml-5 -mt-3 text-left mb-3 text-xs">
+        <span className="text-tc -ml-4">Password should contain at least:</span>
+        <li
+          className={`text-${
+            passwordRStrength.totalCharacters ? "green" : "red"
+          }-600`}
+        >
+          8 characters.
+        </li>
+        <li
+          className={`text-${passwordRStrength.isNumber ? "green" : "red"}-600`}
+        >
+          A number.
+        </li>
+        <li
+          className={`text-${passwordRStrength.isSymbol ? "green" : "red"}-600`}
+        >
+          A symbol.
+        </li>
+        <li
+          className={`text-${passwordRStrength.isUpper ? "green" : "red"}-600`}
+        >
+          A upper case letter.
+        </li>
+        <li
+          className={`text-${passwordRStrength.isLower ? "green" : "red"}-600`}
+        >
+          A lower case letter.
+        </li>
+      </ul>
+    );
+  };
+
+  const passwordStrength =
+    passwordRStrength.totalCharacters &&
+    passwordRStrength.isNumber &&
+    passwordRStrength.isSymbol &&
+    passwordRStrength.isLower &&
+    passwordRStrength.isUpper;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Check if the password meets the requirements
+    if (!passwordRStrength.isEmail)
+      return alert("Unable to sign up, please Enter a vaild email address!");
+
+    // Check if the password meets the requirements
+    if (!passwordStrength)
+      return alert("Unable to sign up, password strength is weak!");
 
     // Checking if password matches
     if (formData.password === formData.confirmPassword) {
@@ -135,6 +223,11 @@ export default function SignUp() {
                     placeholder="name@example.com"
                   />
                 </label>
+                {!passwordRStrength.isEmail && (
+                  <p className="text-xs text-red-600 text-left -mt-3 ml-2 mb-3">
+                    Enter a vaild email address
+                  </p>
+                )}
                 <label className="relative block mb-3">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-4">
                     <LockClosedIcon className="h-5 w-5" />
@@ -160,6 +253,7 @@ export default function SignUp() {
                     )}
                   </span>
                 </label>
+                {formData.password && passwordRequirements()}
                 <label className="relative block mb-3">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-4">
                     <LockClosedIcon className="h-5 w-5" />
@@ -185,14 +279,16 @@ export default function SignUp() {
                     )}
                   </span>
                 </label>
+                {formData.password !== formData.confirmPassword && (
+                  <p className="text-xs text-red-600 text-left -mt-3 ml-2 mb-3">
+                    password doesn&apos;t match
+                  </p>
+                )}
                 <button
                   className="flex justify-center items-center space-x-1 bg-tc 
               text-bgc px-2 py-1 hover:bg-opacity-80 rounded-full min-w-full"
                 >
-                  <ArrowUpOnSquareIcon
-                    strokeWidth={2}
-                    className="w-5 h-5"
-                  />
+                  <ArrowUpOnSquareIcon strokeWidth={2} className="w-5 h-5" />
                   <span>SignUp</span>
                 </button>
                 <span className="font-medium text-sm">
