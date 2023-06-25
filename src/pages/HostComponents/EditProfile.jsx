@@ -21,6 +21,14 @@ export default function EditProfile() {
     oldPassword: "",
     newPassword: "",
   });
+  const [passwordRStrength, setPasswordRStrength] = useState({
+    //passwordRequirementsStrength
+    totalCharacters: false,
+    isNumber: false,
+    isSymbol: false,
+    isUpper: false,
+    isLower: false,
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showCPassword, setShowCPassword] = useState(false);
   const [updatePassword, setUpdatePassword] = useState(false);
@@ -68,6 +76,48 @@ export default function EditProfile() {
       });
   }
 
+  const passwordRequirements = () => {
+    return (
+      <ul className="list-disc ml-5 -mt-3 text-left mb-3 text-xs">
+        <span className="text-tc -ml-4">Password should contain at least:</span>
+        <li
+          className={`text-${
+            passwordRStrength.totalCharacters ? "green" : "red"
+          }-600`}
+        >
+          8 characters.
+        </li>
+        <li
+          className={`text-${passwordRStrength.isNumber ? "green" : "red"}-600`}
+        >
+          A number.
+        </li>
+        <li
+          className={`text-${passwordRStrength.isSymbol ? "green" : "red"}-600`}
+        >
+          A symbol.
+        </li>
+        <li
+          className={`text-${passwordRStrength.isUpper ? "green" : "red"}-600`}
+        >
+          A upper case letter.
+        </li>
+        <li
+          className={`text-${passwordRStrength.isLower ? "green" : "red"}-600`}
+        >
+          A lower case letter.
+        </li>
+      </ul>
+    );
+  };
+
+  const passwordStrength =
+    passwordRStrength.totalCharacters &&
+    passwordRStrength.isNumber &&
+    passwordRStrength.isSymbol &&
+    passwordRStrength.isLower &&
+    passwordRStrength.isUpper;
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     if (name === "oldPassword" || name === "newPassword") {
@@ -85,6 +135,20 @@ export default function EditProfile() {
         };
       });
     }
+
+    // RegExp here is used to check the password strength
+    if (name === "newPassword") {
+      setPasswordRStrength((prevPasswordRStrength) => {
+        return {
+          ...prevPasswordRStrength,
+          totalCharacters: value.length > 7,
+          isUpper: /[A-Z]/.test(value),
+          isLower: /[a-z]/.test(value),
+          isNumber: /[0-9]/.test(value),
+          isSymbol: /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(value),
+        };
+      });
+    }
   };
 
   const handlePasswordField = () => {
@@ -96,8 +160,13 @@ export default function EditProfile() {
     });
   };
 
-  const handleSave = async (event) => {
+  const handleUpdate = async (event) => {
     event.preventDefault();
+
+    // Check if the password meets the requirements
+    if (!passwordStrength)
+      return alert("Unable to sign up, password strength is weak!");
+
     try {
       await axios.put("/editProfile", { ...formData, ...passwordState });
       // Displaying a success message to the user
@@ -170,6 +239,7 @@ export default function EditProfile() {
             )}
           </span>
         </label>
+        {passwordState.newPassword && passwordRequirements()}
       </div>
     );
   };
@@ -187,7 +257,7 @@ export default function EditProfile() {
             <span>Back</span>
           </Link>
           <legend className="text-xl">Edit Personal Info:</legend>
-          <form onSubmit={handleSave} className="space-y-3">
+          <form onSubmit={handleUpdate} className="space-y-3">
             <div className="flex justify-center ">
               <section className="relative block w-40 h-40 border rounded-full">
                 {formData.avater ? (
@@ -237,7 +307,7 @@ export default function EditProfile() {
               value={formData.description}
               placeholder="Description goes here!"
             />
-            {updatePassword ? passwordPlace() : null}
+            {updatePassword && passwordPlace()}
             <button
               className="flex justify-center items-center space-x-1 bg-tc 
               text-bgc px-2 py-1 hover:bg-opacity-80 rounded-full min-w-full"
