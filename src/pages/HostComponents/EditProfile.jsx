@@ -164,7 +164,7 @@ export default function EditProfile() {
     event.preventDefault();
 
     // Check if the password meets the requirements
-    if (!passwordStrength)
+    if (!passwordStrength && updatePassword)
       return alert("Unable to sign up, password strength is weak!");
 
     try {
@@ -257,7 +257,7 @@ export default function EditProfile() {
             <span>Back</span>
           </Link>
           <legend className="text-xl">Edit Personal Info:</legend>
-          <form onSubmit={handleUpdate} className="space-y-3">
+          <form onSubmit={handleUpdate} className="space-y-3 w-[70vw]">
             <div className="flex justify-center ">
               <section className="relative block w-40 h-40 border rounded-full">
                 {formData.avater ? (
@@ -300,7 +300,7 @@ export default function EditProfile() {
               />
             </label>
             <textarea
-              className="min-w-full bg-slate-100 focus:outline-none
+              className="min-w-full h-32 bg-slate-100 focus:outline-none
                   placeholder:italic focus:shadow-md py-2 px-2"
               onChange={handleChange}
               name="description"
