@@ -27,9 +27,9 @@ function Header() {
           <ListBulletIcon className="w-5 h-5" />
           <span>Bookings</span>
         </NavLink>
-        <NavLink to="property" className={isActive}>
+        <NavLink to="properties" className={isActive}>
           <HomeModernIcon className="w-5 h-5" />
-          <span>Property</span>
+          <span>Properties</span>
         </NavLink>
       </nav>
     );
