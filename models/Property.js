@@ -12,6 +12,7 @@ const propertySchema = new mongoose.Schema({
   checkIn: String,
   checkOut: String,
   maxGuests: Number,
+  price: Number,
   createdAt: {
     type: Date,
     default: Date.now,

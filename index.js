@@ -334,6 +334,7 @@ app.post("/newProperty", async (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
+      price,
     } = req.body.formsData;
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
@@ -348,6 +349,7 @@ app.post("/newProperty", async (req, res) => {
         checkIn,
         checkOut,
         maxGuests,
+        price,
       });
 
       const saveProperty = await newProperty.save();
@@ -388,6 +390,7 @@ app.put("/upateProperty", async (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
+      price,
     } = req.body;
 
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -415,6 +418,7 @@ app.put("/upateProperty", async (req, res) => {
         checkIn,
         checkOut,
         maxGuests,
+        price,
       });
 
       const updatedProperty = await updateProperty.save();
@@ -425,6 +429,10 @@ app.put("/upateProperty", async (req, res) => {
     res.status(500).json({ error: "Error creating property" });
   }
 });
+
+app.get("/properties", async function (req, res) {
+  res.json(await Property.find())
+})
 
 // Start the server
 app.listen(PORT, () => {
