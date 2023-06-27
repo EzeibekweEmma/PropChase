@@ -12,6 +12,9 @@ export default {
         tc: "#001a33",
         ltc: "#64748b",
       },
+      screens: {
+        xs: "400px",
+      },
     },
   },
   plugins: [],
