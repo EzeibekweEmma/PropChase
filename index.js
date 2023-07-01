@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/User");
 const Property = require("./models/Property");
+const Booking = require("./models/Booking");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -152,8 +153,12 @@ app.post("/resetPassword", async (req, res) => {
 
       // Send the new password to the user (e.g., via email)
       // sendNewPasswordEmail(existingUser.email, newPassword);
-      console.log(existingUser.email, "=", newPassword);
-      res.status(200).json({ message: "Password reset successful" });
+      res
+        .status(200)
+        .json({
+          message: "Password reset successful",
+          [existingUser.email]: newPassword,
+        });
     } else {
       // User not found
       res.status(404).json({ message: "User doesn't exists" });
