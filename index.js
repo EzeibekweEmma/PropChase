@@ -438,8 +438,58 @@ app.put("/upateProperty", async (req, res) => {
 });
 
 app.get("/properties", async function (req, res) {
-  res.json(await Property.find())
-})
+  res.json(await Property.find());
+});
+
+app.post("/booking", async (req, res) => {
+  // Get properties owned by user
+  const { token } = req.cookies;
+  let userData;
+  try {
+    userData = jwt.verify(token, jwtSecret);
+  } catch (err) {
+    console.error("Token verification error:", err);
+    return res.status(401).json({ error: "Invalid token" });
+  }
+  const { property, checkIn, checkOut, fullName, email, price } = req.body;
+
+  const newBooking = new Booking({
+    property,
+    checkIn,
+    checkOut,
+    fullName,
+    email,
+    price,
+    user: userData.id,
+  });
+
+  newBooking
+    .save()
+    .then((saveBooking, err) => {
+      if (err) throw err;
+      res.json(saveBooking);
+    })
+    .catch((error) => {
+      console.error("Error making booking:", error);
+      res.status(500).json({
+        message: "Error unable to make booking, please try again later",
+      });
+    });
+});
+
+app.get("/bookings", async (req, res) => {
+  // Get properties owned by user
+  const { token } = req.cookies;
+  let userData;
+  try {
+    userData = jwt.verify(token, jwtSecret);
+  } catch (err) {
+    console.error("Token verification error:", err);
+    return res.status(401).json({ error: "Invalid token" });
+  }
+
+  res.json(await Booking.find({ user: userData.id }).populate("property"));
+});
 
 // Start the server
 app.listen(PORT, () => {
