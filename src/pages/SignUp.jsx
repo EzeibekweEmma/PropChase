@@ -63,9 +63,7 @@ export default function SignUp() {
       setPasswordRStrength((prevPasswordRStrength) => {
         return { ...prevPasswordRStrength, isEmail: emailRegex.test(value) };
       });
-      console.log(emailRegex.test(value));
     }
-    console.log(passwordRStrength);
   };
 
   const passwordRequirements = () => {

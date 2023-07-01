@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import HostLayout from "./pages/HostComponents/HostLayout";
 import Home from "./pages/Home";
-import Services from "./pages/Services";
-import Property from "./pages/HostComponents/Property";
+import Properties from "./pages/Properties/Properties";
+import HostProperties from "./pages/HostComponents/Properties";
 import Profile from "./pages/HostComponents/Profile";
 import Bookings from "./pages/HostComponents/Bookings";
 import Login from "./pages/Login";
@@ -14,6 +14,9 @@ import axios from "axios";
 import { UserContextProvider } from "./components/UserContext";
 import AddNewProperty from "./pages/HostComponents/AddNewProperty";
 import EditProfile from "./pages/HostComponents/EditProfile";
+import PropertyID from "./pages/Properties/PropertyID";
+import BookingID from "./pages/HostComponents/BookingID";
+import About from "./pages/About";
 
 axios.defaults.baseURL = "http://127.0.0.1:3000";
 axios.defaults.withCredentials = true;
@@ -24,14 +27,17 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="services" element={<Services />} />
+          <Route path="about" element={<About />} />
+          <Route path="properties" element={<Properties />} />
+          <Route path="properties/:id" element={<PropertyID />} />
           <Route path="host" element={<HostLayout />}>
             <Route index element={<Profile />} />
             <Route path="editProfile" element={<EditProfile />} />
             <Route path="bookings" element={<Bookings />} />
-            <Route path="property" element={<Property />} />
-            <Route path="property/new" element={<AddNewProperty />} />
-            <Route path="property/:id" element={<AddNewProperty />} />
+            <Route path="bookings/:id" element={<BookingID />} />
+            <Route path="properties" element={<HostProperties />} />
+            <Route path="properties/new" element={<AddNewProperty />} />
+            <Route path="properties/:id" element={<AddNewProperty />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="signUp" element={<SignUp />} />

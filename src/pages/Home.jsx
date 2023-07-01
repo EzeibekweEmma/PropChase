@@ -27,7 +27,7 @@ export default function Home() {
             </h2>
             <div className="flex space-x-10">
               <Link
-                to="services"
+                to="properties"
                 className="py-3 px-6 mt-5 rounded-l-3xl hover:rounded-3xl bg-tc text-bgc font-semibold border-white border"
               >
                 Explore Now!
@@ -150,7 +150,7 @@ export default function Home() {
               </p>
               <br />
               <Link
-                to="services"
+                to="properties"
                 className="py-4 px-8 mt-10 hover:rounded-3xl
                  bg-tc text-bgc font-semibold border-white"
               >
