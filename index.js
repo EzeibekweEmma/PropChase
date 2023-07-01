@@ -372,7 +372,14 @@ app.get("/userProperty", (req, res) => {
 
 app.get("/property/:id", async (req, res) => {
   const { id } = req.params;
-  res.json(await Property.findById(id));
+  const propertyId = await Property.findById(id);
+  const userInfo = await User.findById(propertyId.owner);
+  // Create a JSON response object that includes the property details, avatar, and userName
+  res.json({
+    ...propertyId.toObject(),
+    avatar: userInfo.avater,
+    userName: userInfo.userName,
+  });
 });
 
 app.put("/upateProperty", async (req, res) => {
