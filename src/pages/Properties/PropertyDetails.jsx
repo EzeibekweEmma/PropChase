@@ -92,7 +92,7 @@ export default function PropertyDetails({ property }) {
             <UserGroupIcon className="h-4 w-4" />
             <h4>Max Guests - {property.maxGuests}</h4>
           </div>
-          <h4>Avalable Check-In And Check-Out Date.</h4>
+          <h4>Available Check-In And Check-Out Date.</h4>
           <div className="flex space-x-1 items-center">
             <p className="flex items-center space-x-1">
               <CalendarDaysIcon className="h-4 w-4" />
