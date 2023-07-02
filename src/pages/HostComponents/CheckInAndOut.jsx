@@ -18,12 +18,11 @@ export default function checkInAndOut({ headerText, handleChange, formData }) {
           <input
             className="min-w-full rounded-xl bg-slate-100 py-1 pr-3
                 focus:outline-none placeholder:italic focus:shadow-md indent-8"
-            type="time"
+            type="date"
             onChange={handleChange}
             name="checkIn"
             value={formData.checkIn}
             required
-            placeholder="14:00:00"
           />
         </label>
 
@@ -36,12 +35,11 @@ export default function checkInAndOut({ headerText, handleChange, formData }) {
           <input
             className="min-w-full rounded-xl bg-slate-100 py-1 pr-3
                 focus:outline-none placeholder:italic focus:shadow-md indent-8"
-            type="time"
+            type="date"
             onChange={handleChange}
             name="checkOut"
             value={formData.checkOut}
             required
-            placeholder="1:00:00"
           />
         </label>
 
