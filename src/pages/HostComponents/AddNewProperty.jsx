@@ -131,7 +131,7 @@ export default function AddNewProperty() {
         // Displaying a success message to the user
         alert(`Property update was successfull!`);
 
-        setRedirect("/host/property");
+        setRedirect("/host/properties");
       } catch (error) {
         console.error("Error logging user:", error);
         error.response && error.response.data && error.response.data.message
@@ -257,7 +257,7 @@ export default function AddNewProperty() {
               />
             </label>
 
-            {/* Check In and Check Out Time */}
+            {/* Check In and Check Out Time, max guests and Price pre night */}
             <CheckInAndOut
               headerText={headerText}
               formData={formData}

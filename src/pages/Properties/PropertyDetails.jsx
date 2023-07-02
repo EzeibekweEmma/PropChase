@@ -8,7 +8,11 @@ import {
   ArrowLeftOnRectangleIcon,
   BugAntIcon,
   UserCircleIcon,
+  ArrowRightIcon,
+  CalendarDaysIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/outline";
+import { format } from "date-fns";
 
 export default function PropertyDetails({ property }) {
   const helperFunctions = (icon, perk, text) => {
@@ -16,7 +20,9 @@ export default function PropertyDetails({ property }) {
     return (
       <div className="flex items-end space-x-3">
         {icon}
-        <span className={`text-sm ${perk ? "" : "line-through"}`}>{text}</span>
+        <span className={`text-sm ${perk ? "font-medium" : "line-through"}`}>
+          {text}
+        </span>
       </div>
     );
   };
@@ -76,6 +82,28 @@ export default function PropertyDetails({ property }) {
             property.perks.entrance,
             "Private entrance"
           )}
+        </div>
+      </div>
+      <div>
+        {/* checkIn, checkOut and Max Guests info */}
+        <h2 className="sm:text-lg my-2 font-medium">Booking Info</h2>
+        <div className="text-sm font-medium space-y-1">
+          <div className="flex space-x-1 items-center">
+            <UserGroupIcon className="h-4 w-4" />
+            <h4>Max Guests - {property.maxGuests}</h4>
+          </div>
+          <h4>Avalable Check-In And Check-Out Date.</h4>
+          <div className="flex space-x-1 items-center">
+            <p className="flex items-center space-x-1">
+              <CalendarDaysIcon className="h-4 w-4" />
+              <span>{format(new Date(property.checkIn), "yyyy-MM-dd")}</span>
+            </p>
+            <ArrowRightIcon className="h-3 w-3 stroke-2" />
+            <p className="flex items-center space-x-1">
+              <CalendarDaysIcon className="h-4 w-4" />
+              <span>{format(new Date(property.checkOut), "yyyy-MM-dd")}</span>
+            </p>
+          </div>
         </div>
       </div>
       <article>
