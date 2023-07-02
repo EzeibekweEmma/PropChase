@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import Perks from "./Perks";
 import CheckInAndOut from "./CheckInAndOut";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowUpOnSquareStackIcon,
+  PlusIcon,
+} from "@heroicons/react/24/outline";
 import axios from "axios";
 import UploadPhotos from "./UploadPhotos";
 import { Navigate, useParams } from "react-router-dom";
@@ -17,6 +20,7 @@ export default function AddNewProperty() {
     maxGuests: 1,
     checkIn: "",
     checkOut: "",
+    price: 50,
   });
   const [formPerks, setFormPerks] = useState({
     alarm: false,
@@ -118,9 +122,9 @@ export default function AddNewProperty() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (addedphoto.length === 0) {
+    if (addedphoto.length < 5) {
       // checking if user upload a photo
-      return alert(`A minimum of one photo is needed!`);
+      return alert(`Sorry, a minimum of 5 photos are needed!`);
     }
 
     const formsData = { ...formData, formPerks, addedphoto };
@@ -146,7 +150,7 @@ export default function AddNewProperty() {
         // Displaying a success message to the user
         alert(`New Property added successfully!`);
 
-        setRedirect("/host/property");
+        setRedirect("/host/properties");
       } catch (error) {
         console.error("Error logging user:", error);
         error.response && error.response.data && error.response.data.message
@@ -269,8 +273,13 @@ export default function AddNewProperty() {
               className="flex justify-center items-center space-x-1 bg-tc 
               text-bgc p-2 hover:bg-opacity-80 rounded-full min-w-full"
             >
-              <PlusIcon strokeWidth={2} className="w-5 h-5" />
-              <span>Add Property</span>
+              {id ? (
+                <ArrowUpOnSquareStackIcon strokeWidth={2} className="w-5 h-5" />
+              ) : (
+                <PlusIcon strokeWidth={2} className="w-5 h-5" />
+              )}
+
+              <span>{id ? "Update Property" : "Add Property"}</span>
             </button>
           </form>
         </div>
