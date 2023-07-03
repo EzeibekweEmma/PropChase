@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import lightLogo from "../assets/lightLogo.png";
-import youtube from "../assets/youtube";
+import Gmail from "../assets/Gmail";
 import linkedin from "../assets/linkedin";
 import twitter from "../assets/twitter";
 import instagram from "../assets/instagram";
 import facebook from "../assets/facebook";
 export default function Footer() {
   return (
-    <footer className="flex justify-center border-bg-slate-300 border-t text-bgc bg-tc">
+    <footer
+      className="sticky flex justify-center border-bg-slate-300 border-t
+     text-bgc bg-tc top-[100%] "
+    >
       <section className="flex-col w-[80vw]">
         {/* Logo and description */}
         <div className="flex flex-col sm:flex-row justify-between my-5 sm:space-x-5 font-semibold">
@@ -25,21 +28,44 @@ export default function Footer() {
             </article>
             {/*  social buttons */}
             <div className="flex  space-x-5 h-6 items-center">
-              <Link className="pb-1 hover:border-b-2 border-[#007EBB]">
+              <a
+                href="https://linkedin.com/in/ezeibekweemma"
+                target="_blank"
+                className="pb-1 hover:border-b-2 border-[#007EBB]"
+                rel="noreferrer"
+              >
                 {linkedin()}
-              </Link>
-              <Link className="pb-1 hover:border-b-2 border-[#ff8000]">
+              </a>
+              <a
+                href="https://instagram.com/ezeibekweemma"
+                target="_blank"
+                className="pb-1 hover:border-b-2 border-[#ff8000]"
+                rel="noreferrer"
+              >
                 {instagram()}
-              </Link>
-              <Link className="pb-1 hover:border-b-2 border-[#00AAEC]">
+              </a>
+              <a
+                href="https://twitter.com/EzeibekweEmma"
+                target="_blank"
+                className="pb-1 hover:border-b-2 border-[#00AAEC]"
+                rel="noreferrer"
+              >
                 {twitter()}
-              </Link>
-              <Link className="pb-1 hover:border-b-2 border-[#ff0000]">
-                {youtube()}
-              </Link>
-              <Link className="pb-1 hover:border-b-2 border-[#0063DB]">
+              </a>
+              <a
+                href="mailto:ezeibekweemma@gmail.com"
+                className="pb-1 hover:border-b-2 border-[#00ac47]"
+              >
+                {Gmail()}
+              </a>
+              <a
+                href="https://facebook.com/ezeibekweemma"
+                target="_blank"
+                className="pb-1 hover:border-b-2 border-[#0063DB]"
+                rel="noreferrer"
+              >
                 {facebook()}
-              </Link>
+              </a>
             </div>
           </div>
           {/* Navigation */}
@@ -48,20 +74,20 @@ export default function Footer() {
               {/* Services */}
               <div className="py-2 w-fit border-b-2">Services</div>
               <div className="flex flex-col text-sm font-light space-y-1">
-                <Link to="/host" className="hover:font-normal w-fit">
-                  Host Page
+                <Link to="/host/properties" className="hover:font-normal w-fit">
+                  Check properties
                 </Link>
                 <Link to="/host/bookings" className="hover:font-normal w-fit">
                   Check Booking
                 </Link>
                 <Link
-                  to="/host/accommodations"
+                  to="/host/Properties/new"
                   className="hover:font-normal w-fit"
                 >
                   Add Property
                 </Link>
-                <Link to="/services" className="hover:font-normal w-fit">
-                  Explore Property
+                <Link to="/properties" className="hover:font-normal w-fit">
+                  Explore Properties
                 </Link>
               </div>
             </div>
@@ -71,8 +97,8 @@ export default function Footer() {
               <div className="flex flex-col text-sm font-light space-y-1">
                 <Link className="hover:font-normal w-fit">FAQ</Link>
                 <Link className="hover:font-normal w-fit">Help</Link>
-                <Link className="hover:font-normal w-fit">
-                  Your Account
+                <Link to="about" className="hover:font-normal w-fit">
+                  About
                 </Link>
                 <Link className="hover:font-normal w-fit">Privacy Policy</Link>
               </div>
