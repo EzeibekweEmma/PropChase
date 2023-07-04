@@ -52,17 +52,14 @@ function Header() {
       // dropdown menu
       // if user is logged in navigate to account
       <div className="flex flex-col md:absolute bg-lbgc rounded-b-lg pb-2">
-        <Link to={user ? "/host" : "/login"} className={navStyling}>
+        <Link to= "/host" className={navStyling}>
           View Profile
         </Link>
-        <Link to={user ? "/host/bookings" : "/login"} className={navStyling}>
+        <Link to= "/host/bookings" className={navStyling}>
           Bookings
         </Link>
-        <Link
-          to={user ? "/host/accommodations" : "/login"}
-          className={navStyling}
-        >
-          Accommodations
+        <Link to= "/host/properties" className={navStyling}>
+          properties
         </Link>
         <button
           className="flex m-auto w-fit items-center bg-tc text-bgc px-2
@@ -87,36 +84,47 @@ function Header() {
           <NavLink to="/" className={isActive}>
             Home
           </NavLink>
-          <NavLink to="services" className={isActive}>
-            Services
+          <NavLink to="properties" className={isActive}>
+            Properties
           </NavLink>
-          <NavLink to={user ? "/host" : "/login"} className={isActive}>
+          <NavLink to= "/host" className={isActive}>
             Host
+          </NavLink>
+          <NavLink to="about" className={isActive}>
+            About
           </NavLink>
         </nav>
         <div>
           {user ? (
             <button
-              className={`m-auto mb-2 border-tc flex items-center
+              className={`m-auto mb-2 md:mb-0 border-tc flex items-center
             border rounded-lg p-1`}
               onClick={showMenu2}
             >
-              {/* User icon */}
-              <UserCircleIcon className="h-9 w-9" />
-              <span className="pl-1">{user ? user.userName : "logIn"}</span>
+              {/* User photo */}
+
+              {user.avater ? (
+                <img
+                  src={user.avater}
+                  className="object-cover w-9 h-9 border rounded-full"
+                />
+              ) : (
+                <UserCircleIcon className="h-9 w-9" />
+              )}
+              <span className="px-1">{user.userName}</span>
             </button>
           ) : (
             <Link
-              className={`justify-center mb-2 border-tc flex items-center
-            border rounded-lg p-1`}
+              className={`m-auto mb-2 md:mb-0 border-tc flex items-center
+            border rounded-lg p-1 w-fit`}
               to="/login"
             >
-              {/* User icon */}
+              {/* icon */}
               <UserCircleIcon className="h-9 w-9" />
-              <span className="pl-1">{user ? user.userName : "logIn"}</span>
+              <span className="px-1">logIn</span>
             </Link>
           )}
-          {displyHostMenu ? dropDownMenu() : null}
+          {displyHostMenu && dropDownMenu()}
         </div>
       </div>
     );
