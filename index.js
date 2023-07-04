@@ -454,12 +454,21 @@ app.post("/booking", async (req, res) => {
     console.error("Token verification error:", err);
     return res.status(401).json({ error: "Invalid token" });
   }
-  const { property, checkIn, checkOut, fullName, email, price } = req.body;
+  const {
+    property,
+    checkIn,
+    checkOut,
+    maxGuests: numberOfGuests,
+    fullName,
+    email,
+    price,
+  } = req.body;
 
   const newBooking = new Booking({
     property,
     checkIn,
     checkOut,
+    numberOfGuests,
     fullName,
     email,
     price,
