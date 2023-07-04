@@ -11,7 +11,7 @@ export default function PhotoCard({ property, setShowAllPhotos }) {
       <div className="w-full xs:w-4/6 sm:w-1/2">
         <img
           className="object-cover aspect-square"
-          src={`http://127.0.0.1:3000/uploads/${property.photos[0]}`}
+          src={property.photos[0]}
           alt={property.photos[0]}
         />
       </div>
@@ -19,24 +19,24 @@ export default function PhotoCard({ property, setShowAllPhotos }) {
       <div className="w-1/3 sm:w-1/4 hidden xs:block space-y-0.5">
         <img
           className="object-cover aspect-square"
-          src={`http://127.0.0.1:3000/uploads/${property.photos[1]}`}
+          src={property.photos[1]}
           alt={property.photos[1]}
         />
         <img
           className="object-cover aspect-square"
-          src={`http://127.0.0.1:3000/uploads/${property.photos[2]}`}
+          src={property.photos[2]}
           alt={property.photos[2]}
         />
       </div>
       <div className="w-1/4 hidden sm:block space-y-0.5">
         <img
           className="object-cover aspect-square"
-          src={`http://127.0.0.1:3000/uploads/${property.photos[3]}`}
+          src={property.photos[3]}
           alt={property.photos[3]}
         />
         <img
           className="object-cover aspect-square"
-          src={`http://127.0.0.1:3000/uploads/${property.photos[4]}`}
+          src={property.photos[4]}
           alt={property.photos[4]}
         />
       </div>

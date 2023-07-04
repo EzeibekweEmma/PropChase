@@ -31,7 +31,7 @@ export default function UploadPhotos({
     return (
       <div key={link} className="relative">
         <img
-          src={"http://127.0.0.1:3000/uploads/" + link}
+          src={link}
           alt={link}
           className="h-20 w-20 sm:h-32 sm:w-32 object-cover rounded-xl"
         />
@@ -59,7 +59,7 @@ export default function UploadPhotos({
 
   return (
     <>
-      {/* Photos Upload my links */}
+      {/* Photos Upload by links */}
       <label className="text-sm relative block">
         {headerText("Photos", "Photos of the property.")}
         <input

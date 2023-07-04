@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../components/UserContext";
 import { Navigate, Link } from "react-router-dom";
@@ -5,7 +6,7 @@ import { UserIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 
 export default function Profile() {
-  const { ready, user } = useContext(UserContext);
+  const { ready, user, setUser } = useContext(UserContext);
   const [userData, setUserData] = useState({
     userName: "",
     description: "",
@@ -19,6 +20,7 @@ export default function Profile() {
       .then((response) => {
         const { data } = response;
         setUserData(data);
+        setUser(data);
       })
       .catch((error) => {
         console.error("Error fetching profile data:", error);
@@ -40,7 +42,7 @@ export default function Profile() {
             <section className="w-40 h-40 border rounded-full">
               {userData.avater ? (
                 <img
-                  src={`http://127.0.0.1:3000/uploads/${userData.avater}`}
+                  src={userData.avater}
                   className="object-cover w-full h-full border rounded-full"
                 />
               ) : (

@@ -36,7 +36,7 @@ export default function PropertyDetails({ property }) {
         {property.owner ? (
           <img
             className="h-12 w-12 object-cover rounded-full"
-            src={`http://127.0.0.1:3000/uploads/${property.avatar}`}
+            src={property.avatar}
             alt="user photo"
           />
         ) : (

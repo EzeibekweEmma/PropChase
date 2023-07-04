@@ -262,7 +262,7 @@ export default function EditProfile() {
               <section className="relative block w-40 h-40 border rounded-full">
                 {formData.avater ? (
                   <img
-                    src={`http://127.0.0.1:3000/uploads/${formData.avater}`}
+                    src={formData.avater}
                     className="object-cover w-full h-full border rounded-full"
                   />
                 ) : (

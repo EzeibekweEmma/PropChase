@@ -35,7 +35,7 @@ export default function Property() {
                   gap-4 relative sm:flex"
                 >
                   <img
-                    src={`http://127.0.0.1:3000/uploads/${property.photos[0]}`}
+                    src={property.photos[0]}
                     alt={""}
                     className="sm:h-32 sm:w-32 h-52 w-full md:h-52 md:w-52 shrink-0 object-cover rounded-md"
                   />

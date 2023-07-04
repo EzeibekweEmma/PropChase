@@ -14,7 +14,7 @@ export default function Services() {
   return (
     <main>
       <section className="flex justify-center text-tc">
-        <section className="w-[80vw] min-h-startingH">
+        <section className="w-[80vw] min-h-[60vh]">
           <section
             className="grid grid-cols-3 border mt-2 border-tc
           rounded-full py-2 divide-x-2 divide-tc text-center
@@ -54,7 +54,7 @@ export default function Services() {
                       {property.photos?.[0] && (
                         <img
                           className="rounded-3xl object-cover aspect-square"
-                          src={`http://127.0.0.1:3000/uploads/${property.photos?.[0]}`}
+                          src={property.photos?.[0]}
                           alt={property.title}
                         />
                       )}

@@ -42,7 +42,7 @@ export default function PropertyID() {
                     <img
                       className="h-[30rem] w-full object-cover"
                       key={photo}
-                      src={`http://127.0.0.1:3000/uploads/${photo}`}
+                      src={photo}
                       alt={photo}
                     />
                   );
