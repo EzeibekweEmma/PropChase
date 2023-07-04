@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../components/UserContext";
 import { Navigate, Link } from "react-router-dom";
@@ -25,11 +24,11 @@ export default function Profile() {
       .catch((error) => {
         console.error("Error fetching profile data:", error);
       });
-  }, []);
+  }, [setUser]);
 
   if (!ready) return "Loading...";
 
-  // Check if the user is not logged in
+  // if the user is not logged in navigate to the login page
   if (ready && !user) {
     return <Navigate to="/login" />;
   }

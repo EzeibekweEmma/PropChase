@@ -1,16 +1,24 @@
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { UserContext } from "../../components/UserContext";
 
 export default function Property() {
   const [properties, setProperties] = useState([]);
+  const { user } = useContext(UserContext);
   useEffect(() => {
-    // Fetching user's properties
-    axios.get("/userProperty").then(({ data }) => {
-      setProperties(data);
-    });
-  }, []);
+    if (user) {
+      // Fetching user's properties
+      axios.get("/userProperty").then(({ data }) => {
+        setProperties(data);
+      });
+    }
+  }, [user]);
+
+  // if the user is not logged in navigate to the login page
+  if (!user) return <Navigate to="/login" />;
+
   return (
     <main>
       <section className="flex justify-center text-tc">

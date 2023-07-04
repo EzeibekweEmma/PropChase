@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import {
   UserIcon,
@@ -10,8 +10,10 @@ import {
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 import axios from "axios";
+import { UserContext } from "../../components/UserContext";
 
 export default function EditProfile() {
+  const { user } = useContext(UserContext);
   const [formData, setFormData] = useState({
     avater: "",
     userName: "",
@@ -35,17 +37,19 @@ export default function EditProfile() {
   const [redirect, setRedirect] = useState("");
 
   useEffect(() => {
-    // getting and setting FormData from endpoint
-    axios
-      .get("/getProfile")
-      .then((response) => {
-        const { data } = response;
-        setFormData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching profile data:", error);
-      });
-  }, []);
+    if (user) {
+      // getting and setting FormData from endpoint
+      axios
+        .get("/getProfile")
+        .then((response) => {
+          const { data } = response;
+          setFormData(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching profile data:", error);
+        });
+    }
+  }, [user]);
 
   //  Event handler for adding phones from device
   function uploadSinglePhoto(event) {
@@ -243,6 +247,9 @@ export default function EditProfile() {
       </div>
     );
   };
+
+  // if the user is not logged in navigate to the login page
+  if (!user) return <Navigate to="/login" />;
 
   return (
     <section className="flex justify-center text-tc">

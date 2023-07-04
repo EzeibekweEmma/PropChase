@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Perks from "./Perks";
 import CheckInAndOut from "./CheckInAndOut";
 import {
@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import UploadPhotos from "./UploadPhotos";
 import { Navigate, useParams } from "react-router-dom";
+import { UserContext } from "../../components/UserContext";
 
 export default function AddNewProperty() {
   // State variables
@@ -33,17 +34,20 @@ export default function AddNewProperty() {
   const [addedphoto, setAddedPhoto] = useState([]);
   const [photoLink, setPhotoLink] = useState([]);
   const [redirect, setRedirect] = useState("");
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
-    if (!id) return;
+    if (user) {
+      if (!id) return;
 
-    axios.get("/property/" + id).then((response) => {
-      const { data } = response;
-      setFormData(data);
-      setFormPerks(data.perks);
-      setAddedPhoto(data.photos);
-    });
-  }, [id]);
+      axios.get("/property/" + id).then((response) => {
+        const { data } = response;
+        setFormData(data);
+        setFormPerks(data.perks);
+        setAddedPhoto(data.photos);
+      });
+    }
+  }, [id, user]);
 
   const handleChange = (event) => {
     // Event handler for form inputs
@@ -174,6 +178,9 @@ export default function AddNewProperty() {
   if (redirect) {
     return <Navigate to={redirect} />;
   }
+
+  // if the user is not logged in navigate to the login page
+  if (!user) return <Navigate to="/login" />;
 
   return (
     <section className="flex justify-center">
