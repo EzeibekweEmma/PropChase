@@ -11,6 +11,7 @@ const bookingSchema = new mongoose.Schema({
   checkOut: { type: Date, required: true },
   fullName: { type: String, required: true },
   email: { type: String, required: true },
+  numberOfGuests: Number,
   price: Number,
 });
 // Create a Mongoose model for the "Booking" collection
