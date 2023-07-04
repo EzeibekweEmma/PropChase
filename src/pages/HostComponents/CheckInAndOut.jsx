@@ -17,7 +17,7 @@ export default function checkInAndOut({ headerText, handleChange, formData }) {
           </span>
           <input
             className="min-w-full rounded-xl bg-slate-100 py-1 pr-3
-                focus:outline-none placeholder:italic focus:shadow-md indent-8"
+                focus:outline-none placeholder:italic focus:shadow-md indent-5"
             type="date"
             onChange={handleChange}
             name="checkIn"
@@ -34,7 +34,7 @@ export default function checkInAndOut({ headerText, handleChange, formData }) {
           </span>
           <input
             className="min-w-full rounded-xl bg-slate-100 py-1 pr-3
-                focus:outline-none placeholder:italic focus:shadow-md indent-8"
+                focus:outline-none placeholder:italic focus:shadow-md indent-5"
             type="date"
             onChange={handleChange}
             name="checkOut"
@@ -51,7 +51,7 @@ export default function checkInAndOut({ headerText, handleChange, formData }) {
           </span>
           <input
             className="min-w-full rounded-xl bg-slate-100 py-1 pr-3 mb-4
-                focus:outline-none placeholder:italic focus:shadow-md indent-14"
+                focus:outline-none placeholder:italic focus:shadow-md indent-10"
             type="number"
             onChange={handleChange}
             name="maxGuests"
@@ -69,7 +69,7 @@ export default function checkInAndOut({ headerText, handleChange, formData }) {
           </span>
           <input
             className="min-w-full rounded-xl bg-slate-100 py-1 pr-3
-                focus:outline-none placeholder:italic focus:shadow-md indent-14"
+                focus:outline-none placeholder:italic focus:shadow-md indent-10"
             type="number"
             onChange={handleChange}
             name="price"
