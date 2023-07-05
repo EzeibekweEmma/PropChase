@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ArrowsPointingInIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import { MapPinIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import BookingCard from "./BookingCard";
-import PhotoCard from "./PhotoCard";
+import PhotoCard from "../../components/PhotoCard";
 import PropertyDetails from "./PropertyDetails";
+import AllPhotos from "../../components/AllPhotos";
 
 export default function PropertyID() {
   // Extract the id parameter from the URL using useParams()
@@ -17,42 +18,9 @@ export default function PropertyID() {
     if (!id) return;
     axios.get(`/property/${id}`).then((response) => setProperty(response.data));
   }, [id]);
-  // If showAllPhotos is true, render the section with all photos
+  // If showAllPhotos is true, render the AllPhotos component
   if (showAllPhotos) {
-    return (
-      <section className="flex justify-center text-tc">
-        <section className="w-[80vw] min-h-startingH">
-          <div className="flex justify-center">
-            <div className="mb-10">
-              <h1 className="text-2xl font-semibold mb-5 mt-10">
-                Photos of {property.title}
-              </h1>
-              <button
-                onClick={() => setShowAllPhotos(false)}
-                className="sticky top-20 flex items-center bg-lbgc px-2 py-1 
-               rounded-md text-xs font-medium shadow-md shadow-tc m-3
-               space-x-1 border-tc border"
-              >
-                <ArrowsPointingInIcon className="h-4 w-4" />
-                <span>Show less photos</span>
-              </button>
-              <div className="space-y-3 md:w-[40rem]">
-                {property.photos.map((photo) => {
-                  return (
-                    <img
-                      className="h-[30rem] w-full object-cover"
-                      key={photo}
-                      src={photo}
-                      alt={photo}
-                    />
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
-      </section>
-    );
+    return <AllPhotos data={property} setShowAllPhotos={setShowAllPhotos} />;
   }
 
   // Render the main section with property details
@@ -66,7 +34,7 @@ export default function PropertyID() {
               <div>
                 <h1 className="text-2xl font-semibold">{property.title}</h1>
                 <a
-                  className="flex items-center space-x-1 text-xs font-medium underline"
+                  className="flex items-center space-x-1 w-fit text-xs font-medium underline"
                   target="_blank"
                   href={`https://maps.google.com/?q=${property.address}`}
                   rel="noreferrer"
@@ -75,9 +43,9 @@ export default function PropertyID() {
                   <span>{property.address}</span>
                 </a>
               </div>
-
+              {/* Group of photos preview*/}
               <PhotoCard
-                property={property}
+                data={property}
                 showAllPhotos={showAllPhotos}
                 setShowAllPhotos={setShowAllPhotos}
               />
