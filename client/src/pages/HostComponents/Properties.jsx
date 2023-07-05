@@ -1,4 +1,8 @@
-import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowPathIcon,
+  PencilSquareIcon,
+  PlusCircleIcon,
+} from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
@@ -6,18 +10,39 @@ import { UserContext } from "../../components/UserContext";
 
 export default function Property() {
   const [properties, setProperties] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user, ready } = useContext(UserContext);
+  const [showMessage, setShowMessage] = useState(false);
+
   useEffect(() => {
     if (user) {
       // Fetching user's properties
       axios.get("/userProperty").then(({ data }) => {
         setProperties(data);
       });
+
+      const timer = setTimeout(() => {
+        setShowMessage(true);
+      }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [user]);
 
+  if (!ready) {
+    // while fetching data display loading indicator
+    return (
+      <section className="flex justify-center text-ltc min-h-[53vh]">
+        <div className="w-[80vw] p-4 max-w-sm mx-auto">
+          <ArrowPathIcon className="animate-spin stroke-1" />
+          <h2 className="text-center text-5xl font-medium italic animate-pulse">
+            Loading...
+          </h2>
+        </div>
+      </section>
+    );
+  }
+
   // if the user is not logged in navigate to the login page
-  if (!user) return <Navigate to="/login" />;
+  if (!user && ready) return <Navigate to="/login" />;
 
   return (
     <main>
@@ -63,9 +88,14 @@ export default function Property() {
                   </Link>
                 </div>
               ))
-            ) : (
-              <h2 className="text-center font-semibold text-2xl">
+            ) : // Render message when there are no bookings
+            showMessage ? (
+              <h2 className="text-center font-semibold text-2xl animate-pulse">
                 No Property Yet!
+              </h2>
+            ) : (
+              <h2 className="text-center text-3xl font-medium italic text-ltc animate-pulse">
+                Loading...
               </h2>
             )}
           </div>

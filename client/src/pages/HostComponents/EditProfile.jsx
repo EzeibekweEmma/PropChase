@@ -13,7 +13,7 @@ import axios from "axios";
 import { UserContext } from "../../components/UserContext";
 
 export default function EditProfile() {
-  const { user } = useContext(UserContext);
+  const { user, ready } = useContext(UserContext);
   const [formData, setFormData] = useState({
     avater: "",
     userName: "",
@@ -249,7 +249,7 @@ export default function EditProfile() {
   };
 
   // if the user is not logged in navigate to the login page
-  if (!user) return <Navigate to="/login" />;
+  if (!user && ready) return <Navigate to="/login" />;
 
   return (
     <section className="flex justify-center text-tc">

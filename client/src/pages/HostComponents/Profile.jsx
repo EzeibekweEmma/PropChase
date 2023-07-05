@@ -1,7 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../components/UserContext";
 import { Navigate, Link } from "react-router-dom";
-import { UserIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import {
+  UserIcon,
+  PencilSquareIcon,
+  ArrowPathIcon,
+} from "@heroicons/react/24/outline";
 import axios from "axios";
 
 export default function Profile() {
@@ -26,7 +30,19 @@ export default function Profile() {
       });
   }, [setUser]);
 
-  if (!ready) return "Loading...";
+  if (!ready) {
+    // while fetching data display loading indicator
+    return (
+      <section className="flex justify-center text-ltc min-h-[53vh]">
+        <div className="w-[80vw] p-4 max-w-sm mx-auto">
+          <ArrowPathIcon className="animate-spin stroke-1" />
+          <h2 className="text-center text-5xl font-medium italic animate-pulse">
+            Loading...
+          </h2>
+        </div>
+      </section>
+    );
+  }
 
   // if the user is not logged in navigate to the login page
   if (ready && !user) {

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Perks from "./Perks";
 import CheckInAndOut from "./CheckInAndOut";
 import {
+  ArrowPathIcon,
   ArrowUpOnSquareStackIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
@@ -34,7 +35,7 @@ export default function AddNewProperty() {
   const [addedphoto, setAddedPhoto] = useState([]);
   const [photoLink, setPhotoLink] = useState([]);
   const [redirect, setRedirect] = useState("");
-  const { user } = useContext(UserContext);
+  const { user, ready } = useContext(UserContext);
 
   useEffect(() => {
     if (user) {
@@ -179,8 +180,22 @@ export default function AddNewProperty() {
     return <Navigate to={redirect} />;
   }
 
+  if (!ready) {
+    // while fetching data display loading indicator
+    return (
+      <section className="flex justify-center text-ltc min-h-[53vh]">
+        <div className="w-[80vw] p-4 max-w-sm mx-auto">
+          <ArrowPathIcon className="animate-spin stroke-1" />
+          <h2 className="text-center text-5xl font-medium italic animate-pulse">
+            Loading...
+          </h2>
+        </div>
+      </section>
+    );
+  }
+
   // if the user is not logged in navigate to the login page
-  if (!user) return <Navigate to="/login" />;
+  if (!user && ready) return <Navigate to="/login" />;
 
   return (
     <section className="flex justify-center">

@@ -2,7 +2,14 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { UserContext } from "../../components/UserContext";
-import { ArrowRightIcon, CalendarDaysIcon, MapPinIcon, MoonIcon, UserGroupIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowPathIcon,
+  ArrowRightIcon,
+  CalendarDaysIcon,
+  MapPinIcon,
+  MoonIcon,
+  UserGroupIcon,
+} from "@heroicons/react/24/outline";
 import { differenceInCalendarDays, format } from "date-fns";
 import PhotoCard from "../../components/PhotoCard";
 import AllPhotos from "../../components/AllPhotos";
@@ -10,8 +17,9 @@ import AllPhotos from "../../components/AllPhotos";
 export default function BookingID() {
   const { id } = useParams();
   const [details, setDetails] = useState(null);
-  const { user } = useContext(UserContext);
+  const { user, ready } = useContext(UserContext);
   const [showAllPhotos, setShowAllPhotos] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -20,20 +28,35 @@ export default function BookingID() {
         if (booking) {
           setDetails(booking);
         }
+        const timer = setTimeout(() => {
+          setShowMessage(true);
+        }, 1000);
+        return () => clearTimeout(timer);
       });
     }
   }, [id, user]);
-    if (showAllPhotos) {
-      return (
-        <AllPhotos
-          data={details.property}
-          setShowAllPhotos={setShowAllPhotos}
-        />
-      );
-    }
+  if (showAllPhotos) {
+    return (
+      <AllPhotos data={details.property} setShowAllPhotos={setShowAllPhotos} />
+    );
+  }
+
+  if (!ready) {
+    // while fetching data display loading indicator
+    return (
+      <section className="flex justify-center text-ltc min-h-[53vh]">
+        <div className="w-[80vw] p-4 max-w-sm mx-auto">
+          <ArrowPathIcon className="animate-spin stroke-1" />
+          <h2 className="text-center text-5xl font-medium italic animate-pulse">
+            Loading...
+          </h2>
+        </div>
+      </section>
+    );
+  }
 
   // if the user is not logged in navigate to the login page
-  if (!user) return <Navigate to="/login" />;
+  if (!user && ready) return <Navigate to="/login" />;
 
   return (
     <main>
@@ -111,7 +134,16 @@ export default function BookingID() {
                 setShowAllPhotos={setShowAllPhotos}
               />
             </section>
-          ) : null}
+          ) : // Render message when there are no bookings
+          showMessage ? (
+            <h2 className="text-center font-semibold text-2xl animate-pulse">
+              Booking ID Not Found!
+            </h2>
+          ) : (
+            <h2 className="text-center text-3xl font-medium italic text-ltc animate-pulse">
+              Loading...
+            </h2>
+          )}
         </section>
       </section>
     </main>
