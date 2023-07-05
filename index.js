@@ -9,23 +9,24 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
 const multer = require("multer");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const fs = require("fs");
 const {
   generateRandomPassword,
   sendNewPasswordEmail,
 } = require("./settingPassword");
-const { clear } = require("console");
+const mime = require("mime-types");
 
 require("dotenv").config();
 
 const app = express();
 const PORT = 3000;
-const multerUpload = multer({ dest: "uploads/" });
+const multerUpload = multer({ dest: "/tmp" });
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use("/uploads", express.static(__dirname + "/uploads"));
+// app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(
   cors({
     origin: "http://127.0.0.1:5173",
@@ -42,6 +43,31 @@ mongoose
   .catch((error) => {
     console.error("MongoDB connection error:", error);
   });
+
+const bucket = "prop-chase"; // S3 bucket name
+
+async function uploadToS3(path, originalFilename, mimetype) {
+  const client = new S3Client({
+    region: "eu-west-3", // AWS region where the S3 bucket is located
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    },
+  });
+  const parts = originalFilename.split(".");
+  const ext = parts[parts.length - 1];
+  const newFilename = "PropChase-" + Date.now() + "." + ext; // Generate a new filename using the current timestamp
+  await client.send(
+    new PutObjectCommand({
+      Bucket: bucket, // Name of the S3 bucket to upload to
+      Body: fs.readFileSync(path),
+      Key: newFilename,
+      ContentType: mimetype, // MIME type of the file
+      ACL: "public-read", // Access control setting for the uploaded file
+    })
+  );
+  return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
+}
 
 const jwtSecret = "kjfjfdljfdjflnv  eirieninrv enrin";
 
@@ -136,6 +162,10 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json(true);
+});
+
 app.post("/resetPassword", async (req, res) => {
   try {
     let { email } = req.body.formData;
@@ -174,10 +204,13 @@ app.get("/profile", (req, res) => {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       // checks for a token in the cookies and verifies it using the jwt.verify method
       if (err) throw err;
-      const { userName, email, _id, description, avater } = await User.findById(
-        userData.id
-      );
-      res.json({ userName, email, _id, description, avater });
+      try {
+        const { userName, email, _id, description, avater } =
+          await User.findById(userData.id);
+        res.json({ userName, email, _id, description, avater });
+      } catch (err) {
+        res.json(null);
+      }
     });
   } else {
     res.json(null);
@@ -258,39 +291,42 @@ app.put("/editProfile", async (req, res) => {
   }
 });
 
-app.post("/uploadSinglePhoto", multerUpload.single("photo"), (req, res) => {
-  try {
-    const { path, originalname } = req.file;
-    const paths = originalname.split(".");
-    const ext = paths[paths.length - 1];
-    const newPath = path + "." + ext;
+app.post(
+  "/uploadSinglePhoto",
+  multerUpload.single("photo"),
+  async (req, res) => {
+    try {
+      const { path, originalname, mimetype } = req.file;
+      const url = await uploadToS3(path, originalname, mimetype);
 
-    // Rename the file with the appropriate extension
-    fs.renameSync(path, newPath);
-
-    // Send the new path as a JSON response
-    res.json(newPath.replace("uploads\\", ""));
-  } catch (error) {
-    // Handle the error and send an appropriate response
-    res.status(500).json({ message: "Failed to upload file" });
+      res.json(url);
+    } catch (error) {
+      // Handle the error and send an appropriate response
+      res.status(500).json({ message: "Failed to upload file" });
+    }
   }
-});
-
-app.post("/logout", (req, res) => {
-  res.cookie("token", "").json(true);
-});
+);
 
 app.post("/uploadByLink", async (req, res) => {
+  // Endpoint to handle photo upload by link
   try {
     const { link } = req.body;
+    // Generate a unique name for the image using the current timestamp
     const newName = "propChase-" + Date.now() + ".jpg";
+    // Set up options for image download
     const options = {
-      url: link,
-      dest: __dirname + "/uploads/" + newName,
+      url: link, // The URL from which the image will be downloaded
+      dest: "/tmp/" + newName, // The destination path for the downloaded image
     };
-
+    // Download the image using the imageDownloader librar
     await imageDownloader.image(options);
-    res.status(200).json(newName);
+    // Upload the downloaded image to an S3 bucket
+    const url = await uploadToS3(
+      "/tmp/" + newName, // Local path of the downloaded image
+      newName, // Name of the image file
+      mime.lookup(options.dest) // Get the mime type of the image
+    );
+    res.status(200).json(url);
   } catch (error) {
     console.error(error);
     res.status(403).json({
@@ -300,28 +336,25 @@ app.post("/uploadByLink", async (req, res) => {
   }
 });
 
-app.post("/uploadFromDevice", multerUpload.array("photos", 50), (req, res) => {
-  try {
-    const uploadFiles = [];
-    for (let i = 0; i < req.files.length; i++) {
-      const { path, originalname } = req.files[i];
-      const paths = originalname.split(".");
-      const ext = paths[paths.length - 1];
-      const newPath = path + "." + ext;
-
-      // Rename the file with the appropriate extension
-      fs.renameSync(path, newPath);
-
-      // Add the new path to the uploadFiles array
-      uploadFiles.push(newPath.replace("uploads\\", ""));
+app.post(
+  "/uploadFromDevice",
+  multerUpload.array("photos", 50),
+  async (req, res) => {
+    try {
+      const uploadFiles = [];
+      for (let i = 0; i < req.files.length; i++) {
+        const { path, originalname, mimetype } = req.files[i];
+        const url = await uploadToS3(path, originalname, mimetype);
+        uploadFiles.push(url);
+      }
+      // Send the uploadFiles array as a JSON response
+      res.json(uploadFiles);
+    } catch (error) {
+      // Handle the error and send an appropriate response
+      res.status(500).json({ message: "Failed to upload files" });
     }
-    // Send the uploadFiles array as a JSON response
-    res.json(uploadFiles);
-  } catch (error) {
-    // Handle the error and send an appropriate response
-    res.status(500).json({ message: "Failed to upload files" });
   }
-});
+);
 
 app.post("/newProperty", async (req, res) => {
   // Create a new property
