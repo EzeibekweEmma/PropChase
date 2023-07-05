@@ -2,6 +2,7 @@ import {
   ArrowPathIcon,
   PencilSquareIcon,
   PlusCircleIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -12,6 +13,7 @@ export default function Property() {
   const [properties, setProperties] = useState([]);
   const { user, ready } = useContext(UserContext);
   const [showMessage, setShowMessage] = useState(false);
+  const [render, setRender] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -25,7 +27,25 @@ export default function Property() {
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [user]);
+  }, [user, render]);
+
+  const deleteProperty = async (id) => {
+    const propertyName = properties.find((prop) => prop._id === id);
+    if (confirm(`You are about to delete ${propertyName.title}`)) {
+      try {
+        await axios.delete("/deleteProperty/" + id);
+        // Displaying a success message to the user
+        alert(`${propertyName.title} was deleted successfully!`);
+        setRender((prevRender) => !prevRender);
+      } catch (error) {
+        console.error("Error logging user:", error);
+        error.response && error.response.data && error.response.data.message
+          ? // Displaying an error message to the user
+            alert(error.response.data.message)
+          : alert("An error occurred");
+      }
+    }
+  };
 
   if (!ready) {
     // while fetching data display loading indicator
@@ -78,6 +98,14 @@ export default function Property() {
                     </h2>
                     <p className="text-sm mt-1">{property.description}</p>
                   </div>
+                  <button
+                    onClick={() => deleteProperty(property._id)}
+                    className="flex absolute right-2 top-2 items-center space-x-1 bg-tc text-bgc px-2
+              py-1 hover:bg-red-600 rounded-lg w-fit"
+                  >
+                    <TrashIcon className="w-5 h-5" />
+                    <span>Delete</span>
+                  </button>
                   <Link
                     to={property._id}
                     className="flex absolute right-2 bottom-2 items-center space-x-1 bg-tc text-bgc px-2

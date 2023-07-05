@@ -406,6 +406,40 @@ app.get("/userProperty", (req, res) => {
   });
 });
 
+app.delete("/deleteProperty/:id", async (req, res) => {
+  // Define an endpoint for deleting a property document by its ID
+  const { id: propID } = req.params;
+  // Get the authentication token from the request cookies
+  const { token } = req.cookies;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    // Verify the JWT token to get user data (ID)
+    if (err) {
+      console.error(err);
+      return res.sendStatus(500);
+    }
+
+    const { id: userId } = userData;
+
+    try {
+      const property = await Property.findOneAndDelete({
+        _id: propID,
+        owner: userId,
+      });
+
+      if (!property) {
+        // If the property document is not found, send a 404 Not Found response
+        return res.status(404).json({ message: "Property not found" });
+      }
+      // If the deletion is successful, send a 200 OK response
+      return res.sendStatus(200);
+    } catch (error) {
+      console.error(error);
+      return res.sendStatus(500);
+    }
+  });
+});
+
 app.get("/property/:id", async (req, res) => {
   const { id } = req.params;
   const propertyId = await Property.findById(id);
