@@ -20,16 +20,14 @@ const mime = require("mime-types");
 require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
 const multerUpload = multer({ dest: "/tmp" });
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-// app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(
   cors({
-    origin: "http://127.0.0.1:5173",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
@@ -71,10 +69,10 @@ async function uploadToS3(path, originalFilename, mimetype) {
 const jwtSecret = "kjfjfdljfdjflnv  eirieninrv enrin";
 
 // Routes
-app.get("/test", (req, res) => {
+app.get("/", (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
-  res.json({ text: "Okay" });
+  res.json({ connection: "Okay" });
 });
 
 app.post("/signUp", async (req, res) => {
@@ -606,6 +604,10 @@ app.get("/bookings", async (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+if (process.env.PORT) {
+  app.listen(process.env.PORT, () => {
+    console.log(`Server started on port ${process.env.PORT}`);
+  });
+} else {
+  console.log("Server is running...");
+}
