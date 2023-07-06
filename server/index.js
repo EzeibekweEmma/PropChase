@@ -34,15 +34,14 @@ app.use(
   })
 );
 
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.error("MongoDB connection error:", error);
-  });
+// // Connect to MongoDB
+// mongoose.connect(process.env.MONGO_URL)
+//   .then(() => {
+//     console.log("Connected to MongoDB");
+//   })
+//   .catch((error) => {
+//     console.error("MongoDB connection error:", error);
+//   });
 
 const bucket = "prop-chase"; // S3 bucket name
 
@@ -73,10 +72,14 @@ const jwtSecret = "kjfjfdljfdjflnv  eirieninrv enrin";
 
 // Routes
 app.get("/test", (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   res.json({ text: "Okay" });
 });
 
 app.post("/signUp", async (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   try {
     let { userName, email, password, confirmPassword } = req.body.formData;
 
@@ -120,6 +123,8 @@ app.post("/signUp", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   try {
     let { email, password, rememberMe } = req.body.formData;
 
@@ -167,6 +172,8 @@ app.post("/logout", (req, res) => {
 });
 
 app.post("/resetPassword", async (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   try {
     let { email } = req.body.formData;
     // Trim and setting to lowercase
@@ -198,6 +205,8 @@ app.post("/resetPassword", async (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   // Retrieve user profile data
   const { token } = req.cookies;
   if (token) {
@@ -218,6 +227,8 @@ app.get("/profile", (req, res) => {
 });
 
 app.get("/getProfile", async (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   // Retrieve user profile data
   const { token } = req.cookies;
   if (token) {
@@ -235,6 +246,8 @@ app.get("/getProfile", async (req, res) => {
 });
 
 app.put("/editProfile", async (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   // Update a user Profile
   try {
     const { token } = req.cookies;
@@ -295,6 +308,8 @@ app.post(
   "/uploadSinglePhoto",
   multerUpload.single("photo"),
   async (req, res) => {
+    // Connect to MongoDB
+    mongoose.connect(process.env.MONGO_URL);
     try {
       const { path, originalname, mimetype } = req.file;
       const url = await uploadToS3(path, originalname, mimetype);
@@ -309,6 +324,8 @@ app.post(
 
 app.post("/uploadByLink", async (req, res) => {
   // Endpoint to handle photo upload by link
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { link } = req.body;
     // Generate a unique name for the image using the current timestamp
@@ -340,6 +357,8 @@ app.post(
   "/uploadFromDevice",
   multerUpload.array("photos", 50),
   async (req, res) => {
+    // Connect to MongoDB
+    mongoose.connect(process.env.MONGO_URL);
     try {
       const uploadFiles = [];
       for (let i = 0; i < req.files.length; i++) {
@@ -358,6 +377,8 @@ app.post(
 
 app.post("/newProperty", async (req, res) => {
   // Create a new property
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { token } = req.cookies;
     const {
@@ -398,6 +419,8 @@ app.post("/newProperty", async (req, res) => {
 });
 
 app.get("/userProperty", (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   // Get properties owned by user
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -407,6 +430,8 @@ app.get("/userProperty", (req, res) => {
 });
 
 app.delete("/deleteProperty/:id", async (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   // Define an endpoint for deleting a property document by its ID
   const { id: propID } = req.params;
   // Get the authentication token from the request cookies
@@ -441,6 +466,8 @@ app.delete("/deleteProperty/:id", async (req, res) => {
 });
 
 app.get("/property/:id", async (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const propertyId = await Property.findById(id);
   const userInfo = await User.findById(propertyId.owner);
@@ -454,6 +481,8 @@ app.get("/property/:id", async (req, res) => {
 
 app.put("/upateProperty", async (req, res) => {
   // Update a property by id
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { token } = req.cookies;
     const {
@@ -508,10 +537,14 @@ app.put("/upateProperty", async (req, res) => {
 });
 
 app.get("/properties", async function (req, res) {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   res.json(await Property.find());
 });
 
 app.post("/booking", async (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   // Get properties owned by user
   const { token } = req.cookies;
   let userData;
@@ -557,6 +590,8 @@ app.post("/booking", async (req, res) => {
 });
 
 app.get("/bookings", async (req, res) => {
+  // Connect to MongoDB
+  mongoose.connect(process.env.MONGO_URL);
   // Get properties owned by user
   const { token } = req.cookies;
   let userData;

@@ -100,7 +100,7 @@ export default function Property() {
                   </div>
                   <button
                     onClick={() => deleteProperty(property._id)}
-                    className="flex absolute right-2 top-2 items-center space-x-1 bg-tc text-bgc px-2
+                    className="flex absolute right-24 bottom-2 items-center space-x-1 bg-tc text-bgc px-2
               py-1 hover:bg-red-600 rounded-lg w-fit"
                   >
                     <TrashIcon className="w-5 h-5" />
