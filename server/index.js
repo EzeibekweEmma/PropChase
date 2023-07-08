@@ -14,7 +14,7 @@ const fs = require("fs");
 const {
   generateRandomPassword,
   sendNewPasswordEmail,
-} = require("./settingPassword");
+} = require("./models/resetPassword");
 const mime = require("mime-types");
 
 require("dotenv").config();
@@ -66,7 +66,7 @@ async function uploadToS3(path, originalFilename, mimetype) {
   return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
 }
 
-const jwtSecret = "kjfjfdljfdjflnv  eirieninrv enrin";
+const jwtSecret = process.env.JWTSECRET_KEY;
 
 // Routes
 app.get("/", (req, res) => {
@@ -187,10 +187,13 @@ app.post("/resetPassword", async (req, res) => {
       await existingUser.save();
 
       // Send the new password to the user (e.g., via email)
-      // sendNewPasswordEmail(existingUser.email, newPassword);
+      sendNewPasswordEmail(
+        existingUser.email,
+        existingUser.userName,
+        newPassword
+      );
       res.status(200).json({
         message: "Password reset successful",
-        [existingUser.email]: newPassword,
       });
     } else {
       // User not found
