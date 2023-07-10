@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 export default function Services() {
   const [properties, setProperties] = useState([]);
@@ -10,6 +11,10 @@ export default function Services() {
       setProperties(response.data);
     });
   }, []);
+  // while fetching data display loading indicator
+  if (properties.length < 1) {
+    return <Loading />;
+  }
   // This code sets up a page to display a list of properties, fetches the property data from an API endpoint, and renders the properties along with their details
   return (
     <main>

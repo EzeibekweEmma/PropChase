@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import heroBanner from "../assets/heroBanner.png";
 import Banner1 from "../assets/banner.jpg";
-import Banner5 from "../assets/Banner5.jpg";
+import Banner5 from "../assets/banner5.jpg";
 import insurance from "../assets/insurance.png";
 import reduction from "../assets/reduction.png";
 import tax from "../assets/tax.png";

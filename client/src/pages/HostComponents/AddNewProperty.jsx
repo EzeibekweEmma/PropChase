@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import Perks from "./Perks";
 import CheckInAndOut from "./CheckInAndOut";
 import {
-  ArrowPathIcon,
   ArrowUpOnSquareStackIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
@@ -10,6 +9,7 @@ import axios from "axios";
 import UploadPhotos from "./UploadPhotos";
 import { Navigate, useParams } from "react-router-dom";
 import { UserContext } from "../../components/UserContext";
+import Loading from "../../components/Loading";
 
 export default function AddNewProperty() {
   // State variables
@@ -180,18 +180,9 @@ export default function AddNewProperty() {
     return <Navigate to={redirect} />;
   }
 
-  if (!ready) {
-    // while fetching data display loading indicator
-    return (
-      <section className="flex justify-center text-ltc min-h-[53vh]">
-        <div className="w-[80vw] p-4 max-w-sm mx-auto">
-          <ArrowPathIcon className="animate-spin stroke-1" />
-          <h2 className="text-center text-5xl font-medium italic animate-pulse">
-            Loading...
-          </h2>
-        </div>
-      </section>
-    );
+  // while fetching data display loading indicator
+  if (!ready && id) {
+    return <Loading />;
   }
 
   // if the user is not logged in navigate to the login page

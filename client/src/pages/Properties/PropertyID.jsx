@@ -6,6 +6,7 @@ import BookingCard from "./BookingCard";
 import PhotoCard from "../../components/PhotoCard";
 import PropertyDetails from "./PropertyDetails";
 import AllPhotos from "../../components/AllPhotos";
+import Loading from "../../components/Loading";
 
 export default function PropertyID() {
   // Extract the id parameter from the URL using useParams()
@@ -22,7 +23,10 @@ export default function PropertyID() {
   if (showAllPhotos) {
     return <AllPhotos data={property} setShowAllPhotos={setShowAllPhotos} />;
   }
-
+  // while fetching data display loading indicator
+  if (!property) {
+    return <Loading />;
+  }
   // Render the main section with property details
   return (
     <main>

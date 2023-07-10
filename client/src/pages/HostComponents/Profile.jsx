@@ -4,9 +4,9 @@ import { Navigate, Link } from "react-router-dom";
 import {
   UserIcon,
   PencilSquareIcon,
-  ArrowPathIcon,
 } from "@heroicons/react/24/outline";
 import axios from "axios";
+import Loading from "../../components/Loading";
 
 export default function Profile() {
   const { ready, user, setUser } = useContext(UserContext);
@@ -30,20 +30,10 @@ export default function Profile() {
       });
   }, [setUser]);
 
+  // while fetching data display loading indicator
   if (!ready) {
-    // while fetching data display loading indicator
-    return (
-      <section className="flex justify-center text-ltc min-h-[53vh]">
-        <div className="w-[80vw] p-4 max-w-sm mx-auto">
-          <ArrowPathIcon className="animate-spin stroke-1" />
-          <h2 className="text-center text-5xl font-medium italic animate-pulse">
-            Loading...
-          </h2>
-        </div>
-      </section>
-    );
+    return <Loading />;
   }
-
   // if the user is not logged in navigate to the login page
   if (ready && !user) {
     return <Navigate to="/login" />;

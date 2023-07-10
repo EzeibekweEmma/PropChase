@@ -11,6 +11,7 @@ import {
 } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { UserContext } from "../../components/UserContext";
+import Loading from "../../components/Loading";
 
 export default function EditProfile() {
   const { user, ready } = useContext(UserContext);
@@ -247,7 +248,10 @@ export default function EditProfile() {
       </div>
     );
   };
-
+  // while fetching data display loading indicator
+  if (!user) {
+    return <Loading />;
+  }
   // if the user is not logged in navigate to the login page
   if (!user && ready) return <Navigate to="/login" />;
 

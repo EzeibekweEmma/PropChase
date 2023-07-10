@@ -1,5 +1,4 @@
 import {
-  ArrowPathIcon,
   ArrowRightIcon,
   CalendarDaysIcon,
   CreditCardIcon,
@@ -13,6 +12,7 @@ import { differenceInCalendarDays, format } from "date-fns";
 import { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { UserContext } from "../../components/UserContext";
+import Loading from "../../components/Loading";
 
 export default function Bookings() {
   // State to store bookings data and Access user context
@@ -31,18 +31,9 @@ export default function Bookings() {
     return () => clearTimeout(timer);
   }, [user]);
 
+  // while fetching data display loading indicator
   if (!ready) {
-    // while fetching data display loading indicator
-    return (
-      <section className="flex justify-center text-ltc min-h-[53vh]">
-        <div className="w-[80vw] p-4 max-w-sm mx-auto">
-          <ArrowPathIcon className="animate-spin stroke-1" />
-          <h2 className="text-center text-5xl font-medium italic animate-pulse">
-            Loading...
-          </h2>
-        </div>
-      </section>
-    );
+    return <Loading />;
   }
 
   // if the user is not logged in navigate to the login page

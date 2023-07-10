@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { UserContext } from "../../components/UserContext";
 import {
-  ArrowPathIcon,
   ArrowRightIcon,
   CalendarDaysIcon,
   MapPinIcon,
@@ -13,6 +12,7 @@ import {
 import { differenceInCalendarDays, format } from "date-fns";
 import PhotoCard from "../../components/PhotoCard";
 import AllPhotos from "../../components/AllPhotos";
+import Loading from "../../components/Loading";
 
 export default function BookingID() {
   const { id } = useParams();
@@ -41,18 +41,9 @@ export default function BookingID() {
     );
   }
 
+  // while fetching data display loading indicator
   if (!ready) {
-    // while fetching data display loading indicator
-    return (
-      <section className="flex justify-center text-ltc min-h-[53vh]">
-        <div className="w-[80vw] p-4 max-w-sm mx-auto">
-          <ArrowPathIcon className="animate-spin stroke-1" />
-          <h2 className="text-center text-5xl font-medium italic animate-pulse">
-            Loading...
-          </h2>
-        </div>
-      </section>
-    );
+    return <Loading />;
   }
 
   // if the user is not logged in navigate to the login page
