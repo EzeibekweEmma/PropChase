@@ -3,8 +3,8 @@ import lightLogo from "../assets/lightLogo.png";
 import Gmail from "../assets/Gmail";
 import linkedin from "../assets/linkedin";
 import twitter from "../assets/twitter";
-import instagram from "../assets/instagram";
 import facebook from "../assets/facebook";
+import Github from "../assets/Github";
 export default function Footer() {
   return (
     <footer
@@ -37,12 +37,12 @@ export default function Footer() {
                 {linkedin()}
               </a>
               <a
-                href="https://instagram.com/ezeibekweemma"
+                href="https://github.com/EzeibekweEmma/PropChase"
                 target="_blank"
-                className="pb-1 hover:border-b-2 border-[#ff8000]"
+                className="pb-1 hover:border-b-2 border-[#000000]"
                 rel="noreferrer"
               >
-                {instagram()}
+                {Github()}
               </a>
               <a
                 href="https://twitter.com/EzeibekweEmma"
