@@ -69,13 +69,13 @@ async function uploadToS3(path, originalFilename, mimetype) {
 const jwtSecret = process.env.JWTSECRET_KEY;
 
 // Routes
-app.get("/", (req, res) => {
+app.get("/api/test", (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   res.json({ connection: "Okay" });
 });
 
-app.post("/signUp", async (req, res) => {
+app.post("/api/signUp", async (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   try {
@@ -120,7 +120,7 @@ app.post("/signUp", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   try {
@@ -165,11 +165,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/logout", (req, res) => {
+app.post("/api/logout", (req, res) => {
   res.cookie("token", "").json(true);
 });
 
-app.post("/resetPassword", async (req, res) => {
+app.post("/api/resetPassword", async (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   try {
@@ -205,7 +205,7 @@ app.post("/resetPassword", async (req, res) => {
   }
 });
 
-app.get("/profile", (req, res) => {
+app.get("/api/profile", (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   // Retrieve user profile data
@@ -227,7 +227,7 @@ app.get("/profile", (req, res) => {
   }
 });
 
-app.get("/getProfile", async (req, res) => {
+app.get("/api/getProfile", async (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   // Retrieve user profile data
@@ -246,7 +246,7 @@ app.get("/getProfile", async (req, res) => {
   }
 });
 
-app.put("/editProfile", async (req, res) => {
+app.put("/api/editProfile", async (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   // Update a user Profile
@@ -306,7 +306,7 @@ app.put("/editProfile", async (req, res) => {
 });
 
 app.post(
-  "/uploadSinglePhoto",
+  "/api/uploadSinglePhoto",
   multerUpload.single("photo"),
   async (req, res) => {
     // Connect to MongoDB
@@ -323,7 +323,7 @@ app.post(
   }
 );
 
-app.post("/uploadByLink", async (req, res) => {
+app.post("/api/uploadByLink", async (req, res) => {
   // Endpoint to handle photo upload by link
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
@@ -355,7 +355,7 @@ app.post("/uploadByLink", async (req, res) => {
 });
 
 app.post(
-  "/uploadFromDevice",
+  "/api/uploadFromDevice",
   multerUpload.array("photos", 50),
   async (req, res) => {
     // Connect to MongoDB
@@ -376,7 +376,7 @@ app.post(
   }
 );
 
-app.post("/newProperty", async (req, res) => {
+app.post("/api/newProperty", async (req, res) => {
   // Create a new property
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
@@ -419,7 +419,7 @@ app.post("/newProperty", async (req, res) => {
   }
 });
 
-app.get("/userProperty", (req, res) => {
+app.get("/api/userProperty", (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   // Get properties owned by user
@@ -430,7 +430,7 @@ app.get("/userProperty", (req, res) => {
   });
 });
 
-app.delete("/deleteProperty/:id", async (req, res) => {
+app.delete("/api/deleteProperty/:id", async (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   // Define an endpoint for deleting a property document by its ID
@@ -466,7 +466,7 @@ app.delete("/deleteProperty/:id", async (req, res) => {
   });
 });
 
-app.get("/property/:id", async (req, res) => {
+app.get("/api/property/:id", async (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
@@ -480,7 +480,7 @@ app.get("/property/:id", async (req, res) => {
   });
 });
 
-app.put("/upateProperty", async (req, res) => {
+app.put("/api/upateProperty", async (req, res) => {
   // Update a property by id
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
@@ -537,13 +537,13 @@ app.put("/upateProperty", async (req, res) => {
   }
 });
 
-app.get("/properties", async function (req, res) {
+app.get("/api/properties", async function (req, res) {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   res.json(await Property.find());
 });
 
-app.post("/booking", async (req, res) => {
+app.post("/api/booking", async (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   // Get properties owned by user
@@ -590,7 +590,7 @@ app.post("/booking", async (req, res) => {
     });
 });
 
-app.get("/bookings", async (req, res) => {
+app.get("/api/bookings", async (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   // Get properties owned by user

@@ -1,0 +1,11 @@
+{
+  "buildCommand": "cd client && npm install && ./node_modules/vite/bin/vite.js build",
+  "outputDirectory": "client/dist",
+  "frameworks": "vite",
+  "rewrites":[
+    {
+      "source": "/api/(.*)",
+      "distination": "/api/index.js"
+    }
+  ]
+}
