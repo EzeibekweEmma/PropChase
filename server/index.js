@@ -69,7 +69,7 @@ async function uploadToS3(path, originalFilename, mimetype) {
 const jwtSecret = process.env.JWTSECRET_KEY;
 
 // Routes
-app.get("/api/test", (req, res) => {
+app.get("/api", (req, res) => {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGO_URL);
   res.json({ connection: "Okay" });
