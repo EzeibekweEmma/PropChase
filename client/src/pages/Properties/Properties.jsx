@@ -55,7 +55,7 @@ export default function Services() {
               properties.map((property) => {
                 return (
                   <Link to={property._id} key={property._id}>
-                    <div className="">
+                    <div className="mb-2">
                       {property.photos?.[0] && (
                         <img
                           className="rounded-3xl object-cover aspect-square"

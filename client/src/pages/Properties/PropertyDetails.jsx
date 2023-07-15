@@ -33,7 +33,7 @@ export default function PropertyDetails({ property }) {
         <h2 className="sm:text-xl font-semibold">
           {property.title} hosted by {property.userName}
         </h2>
-        {property.owner ? (
+        {property.avatar ? (
           <img
             className="h-12 w-12 object-cover rounded-full"
             src={property.avatar}

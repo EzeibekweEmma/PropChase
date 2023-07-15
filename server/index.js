@@ -147,7 +147,13 @@ app.post("/api/login", async (req, res) => {
           (err, token) => {
             if (err) throw err;
             // Set the token as a cookie and send a success response
-            res.cookie("token", token).status(200).json(existingUser);
+            res
+              .cookie("token", token, {
+                secure: true, // Set to true if served over HTTPS
+                sameSite: "none",
+              })
+              .status(200)
+              .json(existingUser);
           }
         );
       } else {
@@ -336,7 +342,7 @@ app.post("/api/uploadByLink", async (req, res) => {
       url: link, // The URL from which the image will be downloaded
       dest: "/tmp/" + newName, // The destination path for the downloaded image
     };
-    // Download the image using the imageDownloader librar
+    // Download the image using the imageDownloader library
     await imageDownloader.image(options);
     // Upload the downloaded image to an S3 bucket
     const url = await uploadToS3(
@@ -472,10 +478,10 @@ app.get("/api/property/:id", async (req, res) => {
   const { id } = req.params;
   const propertyId = await Property.findById(id);
   const userInfo = await User.findById(propertyId.owner);
-  // Create a JSON response object that includes the property details, avatar, and userName
+  // Create a JSON response object that includes the property details, avater, and userName
   res.json({
     ...propertyId.toObject(),
-    avatar: userInfo.avater,
+    avater: userInfo.avater,
     userName: userInfo.userName,
   });
 });
