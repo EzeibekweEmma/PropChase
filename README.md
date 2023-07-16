@@ -99,11 +99,11 @@ To start the PropChase application locally, follow these steps:
 - - Deletion of listed properties
 - - Editing of listed properties details
 - - Explore properties
-- - Properties search and filtering  <font size='2'>==Not fully implemented==</font>
+- - Properties search and filtering  - *Not fully implemented*
 - Booking management
 - - Viewing of Booking 
-- - Making Booking <font size='2'>==Not fully implemented==</font>
-- communicate with sellers <font size='2'>==Not implemented==</font>
+- - Making Booking - *Not fully implemented*
+- communicate with sellers - *Not implemented*
 
 ---
 
@@ -158,18 +158,18 @@ Contributions to PropChase project are welcome!
 
 Here are some related projects that you may find interesting:
 
-- [PropChase API](https://propchase-server.onrender.com/api) - Backend API for the PropChase application.
-To interact with the PropChase API hosted at https://propchase-server.onrender.com/api, you can use the following HTTP methods:
+- [PropChase API](https://dull-tan-binturong-toga.cyclic.app/api) - Backend API for the PropChase application.
+To interact with the PropChase API hosted at https://dull-tan-binturong-toga.cyclic.app/api, you can use the following HTTP methods:
 
 1. **GET:** Retrieve data from the API.
    - **Endpoint:** `/properties`
    - **Description:** Get all properties.
-   - **Example:** `GET https://propchase-server.onrender.com/api/properties`
+   - **Example:** `GET https://dull-tan-binturong-toga.cyclic.app/api/properties`
 
 2. **GET:** Retrieve a specific data from the API.
    - **Endpoint:** `/property/{propertyId}`
    - **Description:** Get details of a specific property.
-   - **Example:** `GET https://propchase-server.onrender.com/api/property/{propertyId}`
+   - **Example:** `GET https://dull-tan-binturong-toga.cyclic.app/api/property/{propertyId}`
 
 **Note:** Replace `{propertyId}` with the actual ID of the property you want to retrieve others methods requires token to access it.
 

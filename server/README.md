@@ -13,18 +13,18 @@ This is the server side for the PropChase application.
   - **Date-fns:** JavaScript library that provides efficient and easy-to-use functions for working with dates and times.
   - **AWS-S3:** Service for storing and retrieving files.
 
-### Project API [Link...](https://propchase-server.onrender.com/api)
-To interact with the PropChase API hosted at https://propchase-server.onrender.com/api, you can use the following HTTP methods:
+### Project API [Link...](https://dull-tan-binturong-toga.cyclic.app/api)
+To interact with the PropChase API hosted at https://dull-tan-binturong-toga.cyclic.app/api, you can use the following HTTP methods:
 
 1. **GET:** Retrieve data from the API.
    - **Endpoint:** `/properties`
    - **Description:** Get all properties.
-   - **Example:** `GET https://propchase-server.onrender.com/api/properties`
+   - **Example:** `GET https://dull-tan-binturong-toga.cyclic.app/api/properties`
 
 2. **GET:** Retrieve a specific data from the API.
    - **Endpoint:** `/property/{propertyId}`
    - **Description:** Get details of a specific property.
-   - **Example:** `GET https://propchase-server.onrender.com/api/property/{propertyId}`
+   - **Example:** `GET https://dull-tan-binturong-toga.cyclic.app/api/property/{propertyId}`
 
 **Note:** Replace `{propertyId}` with the actual ID of the property you want to retrieve others methods requires token to access it.
 
