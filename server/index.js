@@ -172,7 +172,12 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.post("/api/logout", (req, res) => {
-  res.cookie("token", "").json(true);
+  res
+    .cookie("token", "", {
+      secure: true, // Set to true if served over HTTPS
+      sameSite: "none",
+    })
+    .json(true);
 });
 
 app.post("/api/resetPassword", async (req, res) => {

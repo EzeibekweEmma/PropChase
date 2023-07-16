@@ -15,8 +15,8 @@ function Header() {
   const [logoutConfirmed, setLogoutConfirmed] = useState(false);
 
   // State for displaying the mobile menu
-  const [displyMenu, setDisplyMenu] = useState(false);
-  const [displyHostMenu, setDisplyHostMenu] = useState(false);
+  const [displayMenu, setDisplayMenu] = useState(false);
+  const [displayHostMenu, setDisplayHostMenu] = useState(false);
 
   // Styling for the navigation links
   const navStyling = "p-1 m-2 border-tc hover:border-b-4";
@@ -27,11 +27,11 @@ function Header() {
 
   const showMenu = () => {
     // Function to toggle the mobile menu
-    setDisplyMenu((prevDisplyMenu) => !prevDisplyMenu);
+    setDisplayMenu((prevDisplayMenu) => !prevDisplayMenu);
   };
   const showMenu2 = () => {
     // Function to toggle the mobile menu
-    setDisplyHostMenu((prevMenu) => !prevMenu);
+    setDisplayHostMenu((prevMenu) => !prevMenu);
   };
 
   const handleLogout = async () => {
@@ -39,7 +39,7 @@ function Header() {
       await axios.post("/logout");
       setUser(null);
       setLogoutConfirmed(true);
-      setDisplyHostMenu(false);
+      setDisplayHostMenu(false);
     }
   };
   // Check if logout is confirmed
@@ -124,7 +124,7 @@ function Header() {
               <span className="px-1">logIn</span>
             </Link>
           )}
-          {displyHostMenu && dropDownMenu()}
+          {displayHostMenu && dropDownMenu()}
         </div>
       </div>
     );
@@ -148,7 +148,7 @@ function Header() {
 
           {/* Mobile menu button */}
           <button onClick={showMenu} className="block md:hidden">
-            {displyMenu ? (
+            {displayMenu ? (
               <XMarkIcon className="h-6 w-6" strokeWidth="2" />
             ) : (
               <Bars3Icon className="h-6 w-6" strokeWidth="2" />
@@ -157,7 +157,7 @@ function Header() {
         </div>
 
         {/* Mobile menu */}
-        <div className={`${displyMenu ? "block" : "hidden"} block md:hidden`}>
+        <div className={`${displayMenu ? "block" : "hidden"} block md:hidden`}>
           {navbar()}
         </div>
       </div>
