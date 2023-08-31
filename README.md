@@ -176,14 +176,14 @@ To interact with the PropChase API hosted at https://dull-tan-binturong-toga.cyc
 ---
 
 ## App Screenshots
-#### Destop mode
+#### Desktop mode
 ![App Screenshots](https://prop-chase.s3.amazonaws.com/PropChase-1689124109950.png)
 ![App Screenshots](https://prop-chase.s3.amazonaws.com/PropChase-1689124112246.png)
 ![App Screenshots](https://prop-chase.s3.amazonaws.com/PropChase-1689124114760.png)
 ![App Screenshots](https://prop-chase.s3.amazonaws.com/PropChase-1689124116142.png)
 #### Tablet mode
 ![App Screenshots](https://prop-chase.s3.amazonaws.com/PropChase-1689124119651.png)
-#### Moblie mode
+#### Mobile mode
 ![App Screenshots](https://prop-chase.s3.amazonaws.com/PropChase-1689124118065.png)
 
 ---
