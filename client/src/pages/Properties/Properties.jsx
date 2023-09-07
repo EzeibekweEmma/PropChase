@@ -6,12 +6,12 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function Services() {
     const [properties, setProperties] = useState([]);
-    const [propertiesBackUp, setPropertiesBackUp] = useState([]);
+    const [filtered, setFiltered] = useState([]);
+    const [noMatch, setNoMatch] = useState(false);
     useEffect(() => {
         // getting properties from properties endpoint
         axios.get("/properties").then((response) => {
             setProperties(response.data);
-            setPropertiesBackUp(response.data);
         });
     }, []);
     // while fetching data display loading indicator
@@ -24,23 +24,23 @@ export default function Services() {
         const searchText = e.target.value.toLowerCase();
 
         const filtered = properties.filter((property) => {
-            if (searchText === "") {
-                setProperties(propertiesBackUp);
-                return properties;
-            } else {
-                return (
-                    property.title.toLowerCase().includes(searchText) ||
-                    property.address.toLowerCase().includes(searchText)
-                );
-            }
+            return searchText === ""
+                ? properties
+                : property.title.toLowerCase().includes(searchText) ||
+                      property.address.toLowerCase().includes(searchText);
         });
-        setProperties(filtered);
+        setFiltered(filtered);
+        filtered.length < 1 ? setNoMatch(true) : setNoMatch(false);
+        setTimeout(() => {
+            setNoMatch(false);
+        }, 5000);
     };
     // disable enter key on search input
     const handleKeyPress = (e) => {
         if (e.key === "Enter") e.preventDefault();
     };
 
+    const displayProperty = filtered.length > 0 ? filtered : properties;
     // This code sets up a page to display a list of properties, fetches the property data from an API endpoint, and renders the properties along with their details
     return (
         <main>
@@ -52,8 +52,8 @@ export default function Services() {
                     >
                         <input
                             type="search"
-                            className="h-full w-full outline-none indent-11 py-2 
-                            focus:bg-slate-100 text-lg pr-5 font-medium text-gray-500"
+                            className="h-full w-full outline-none indent-11 py-2 placeholder:italic
+                            focus:bg-slate-100 text-lg pr-5 text-gray-500"
                             placeholder="Search for Buildings, Houses or Locations here...!"
                             onChange={(e) => filteredProperties(e)}
                             onKeyPress={handleKeyPress}
@@ -61,14 +61,18 @@ export default function Services() {
                         <span className="h-5 w-5 absolute left-4 top-2.5">
                             <MagnifyingGlassIcon className="h-full w-full text-tc stroke-2" />
                         </span>
-                        {/* <input type="submit" hidden /> */}
                     </form>
+                    {noMatch && (
+                        <p className="text-tc text-center mt-2 animate-bounce">
+                            No match found!
+                        </p>
+                    )}
                     <section
                         className="grid gap-x-6 gap-y-8 grid-cols-1 xs:grid-cols-2
           sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 my-8"
                     >
-                        {properties.length > 0 &&
-                            properties.map((property) => {
+                        {displayProperty.length > 0 &&
+                            displayProperty.map((property) => {
                                 return (
                                     <Link to={property._id} key={property._id}>
                                         <div className="mb-2">
