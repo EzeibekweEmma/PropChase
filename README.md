@@ -6,7 +6,6 @@
 
 PropChase is a real estate like web application where users can rent and list properties such as apartments, houses, or commercial space, It aimed at helping users search and discover properties for sale or rent. The objective of PropChase is to provide a user-friendly platform that enables users easily find and evaluate real estate listings based on their preferences and requirements. By offering a comprehensive search functionality, detailed property information, making bookings, communicate with sellers, and interactive features, PropChase aims to simplify the process of property hunting and empower users to make informed decisions when it comes to buying or renting properties.
 
--   **Deployed Site:** [PropChase](https://prop-chase.vercel.app)
 -   **Final Project Blog Article:** [PropChase Blog Article](https://medium.com/@ezeibekweemma/propchase-project-blog-post-fc457ac96861)
 -   **Author LinkedIn:** [Ezeibekwe Emmanuel](https://www.linkedin.com/in/ezeibekweemma)
 -   **Author Role:** Designing, developing, maintaining both the client-side and server-side components of this web application, managing database, ensuring the smooth integration of all components and a seamless user experience.
