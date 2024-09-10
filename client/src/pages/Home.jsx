@@ -1,16 +1,16 @@
 // Importing necessary dependencies and assets
-import { Link } from "react-router-dom";
-import heroBanner from "../assets/heroBanner.png";
-import Banner1 from "../assets/banner.jpg";
-import Banner5 from "../assets/banner5.jpg";
-import insurance from "../assets/insurance.png";
-import reduction from "../assets/reduction.png";
-import tax from "../assets/tax.png";
-import support from "../assets/support.png";
-import Gmail from "../assets/Gmail";
-import linkedin from "../assets/linkedin";
-import twitter from "../assets/twitter";
-import Github from "../assets/Github";
+import { Link } from 'react-router-dom';
+import heroBanner from '../assets/heroBanner.png';
+import Banner1 from '../assets/banner.jpg';
+import Banner5 from '../assets/banner5.jpg';
+import insurance from '../assets/insurance.png';
+import reduction from '../assets/reduction.png';
+import tax from '../assets/tax.png';
+import support from '../assets/support.png';
+import Gmail from '../assets/Gmail';
+import linkedin from '../assets/linkedin';
+import twitter from '../assets/twitter';
+import Github from '../assets/Github';
 
 export default function Home() {
   // Defining the Home component
@@ -116,7 +116,7 @@ export default function Home() {
             <article className="mt-10 md:mt-0">
               <span className="font-semibold">What We Do</span>
               <h2 className="text-3xl text-ltc mb-5 lg:text-5xl">
-                We Help Clients{" "}
+                We Help Clients{' '}
                 <span className="text-tc font-semibold">Reach</span> their Dream
                 Property.
               </h2>
@@ -193,76 +193,6 @@ export default function Home() {
           </section>
         </section>
       </section>
-      {/* About Author section */}
-      <section
-        className="h-[65vh] bg-no-repeat bg-cover bg-center mb-20 text-bgc"
-        style={{ backgroundImage: `url(${Banner5})` }}
-      >
-        <section
-          className="flex justify-center h-full w-full bg-tc items-center
-        bg-opacity-50"
-        >
-          <section className="flex md:space-x-10 items-center flex-col md:flex-row mx-10">
-            <img
-              src="https://prop-chase.s3.amazonaws.com/PropChase-1688482681109.jpg"
-              alt="author photo"
-              className="h-52 lg:h-72 rounded-2xl"
-            />
-            <section>
-              <article className="max-w-lg font-medium">
-                <span className="font-semibold ">Author:</span>
-                <h2 className="md:text-2xl text-xl text-lbgc lg:text-4xl font-semibold">
-                  Ezeibekwe Emmanuel
-                </h2>
-                <p className="md:mb-4 font-normal md:font-semibold">
-                  Software Engineer(Full-stack - Frontend heavy)
-                </p>
-                <span className="font-semibold hidden md:block">Role:</span>
-                <p className="md:mb-4 hidden md:block">
-                  Designing, developing, maintaining both the client-side and
-                  server-side components of this web application, managing
-                  database, ensuring the smooth integration of all components
-                  and a seamless user experience.
-                </p>
-                <br />
-                {/*  social buttons */}
-                <div className="flex space-x-5 h-6 items-center">
-                  <a
-                    href="https://linkedin.com/in/ezeibekweemma"
-                    target="_blank"
-                    className="p-2 rounded-xl hover:bg-bgc"
-                    rel="noreferrer"
-                  >
-                    {linkedin()}
-                  </a>
-                  <a
-                    href="https://github.com/EzeibekweEmma"
-                    target="_blank"
-                    className="p-1 rounded-xl hover:bg-bgc"
-                    rel="noreferrer"
-                  >
-                    {Github()}
-                  </a>
-                  <a
-                    href="https://twitter.com/EzeibekweEmma"
-                    target="_blank"
-                    className="p-2 rounded-xl hover:bg-bgc"
-                    rel="noreferrer"
-                  >
-                    {twitter()}
-                  </a>
-                  <a
-                    href="mailto:ezeibekweemma@gmail.com"
-                    className="p-2 rounded-xl hover:bg-bgc"
-                  >
-                    {Gmail()}
-                  </a>
-                </div>
-              </article>
-            </section>
-          </section>
-        </section>
-      </section>
 
       <section className="flex justify-center">
         <section className="w-[80vw]">
@@ -276,7 +206,7 @@ export default function Home() {
             <article className="mt-10 md:mt-0">
               <span className="font-semibold">About Us</span>
               <h2 className="text-3xl text-ltc mb-5 lg:text-5xl">
-                We Provide The Best{" "}
+                We Provide The Best{' '}
                 <span className="text-tc font-semibold">Property</span> For You.
               </h2>
               <p className="mb-4">
