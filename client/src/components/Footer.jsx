@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import lightLogo from "../assets/lightLogo.png";
-import Gmail from "../assets/Gmail";
-import linkedin from "../assets/linkedin";
-import twitter from "../assets/twitter";
-import facebook from "../assets/facebook";
-import Github from "../assets/Github";
+import { Link } from 'react-router-dom';
+import lightLogo from '../assets/lightLogo.png';
+import Gmail from '../assets/Gmail';
+import linkedin from '../assets/linkedin';
+import twitter from '../assets/twitter';
+import facebook from '../assets/facebook';
+import Github from '../assets/Github';
 export default function Footer() {
   return (
     <footer
@@ -107,7 +107,7 @@ export default function Footer() {
         </div>
         {/* Copyright */}
         <span className="flex border-t justify-center py-5">
-          Copyright © 2023 PorpChase
+          Copyright © {new Date().getFullYear()} PorpChase
         </span>
       </section>
     </footer>
